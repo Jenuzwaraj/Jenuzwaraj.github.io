@@ -38,7 +38,7 @@ Explore my blog for detailed articles and tutorials:
 
 - [Yocto Project – Custom Linux Distro](yocto-project.html)
 - [ESP32 Quadbot: Building a Quadruped Robot](esp32-quadbot.html)
-- [Handwriting Machine: Combining Arduino with 3D Printing](handwriting-machine.html)
+- [blog 3(handwriting-machine.html)
 
 ---
 
