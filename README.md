@@ -1,47 +1,8 @@
 ---
 layout: post
-title: "Building My Own Linux Distro with Yocto Project"
+title: "Welcome to My Embedded Blog"
 date: 2025-09-22
-categories: yocto embedded linux
 ---
 
-## Why I Chose Yocto Project  
-As an embedded and IoT engineer, I often need a lightweight, highly customized Linux for my hardware.  
-Instead of relying on pre-built distributions, I wanted to learn how to **build my own Linux image** from scratch.  
-That’s where the **Yocto Project** comes in.
-
----
-
-## What I Did  
-- Downloaded **Poky** (Yocto’s reference build system).  
-- Set up the build environment on my workstation.  
-- Configured **layers** and **recipes** for my specific board.  
-- Built a custom **embedded Linux distro** tailored to my project’s requirements.
-
----
-
-## Highlights of the Build  
-- **Layers & Recipes:** Added support for my target board and extra packages.  
-- **Toolchain:** Cross-compiled for ARM, ensuring smooth integration with my embedded hardware.  
-- **Optimizations:** Removed unnecessary services, reducing boot time and image size.  
-
----
-
-## Lessons Learned  
-- **Layering is power:** Each layer can be isolated, maintained, and reused.  
-- **Reproducibility matters:** Using Yocto guarantees a predictable build environment.  
-- **Patience pays off:** The first build takes time, but incremental builds are faster.
-
----
-
-## What’s Next  
-- Adding **custom device drivers** into the Yocto build.  
-- Automating builds with **CI/CD** on GitHub Actions.  
-- Documenting my process so others can follow along.
-
----
-
-### Takeaway  
-The Yocto Project isn’t just a tool — it’s a gateway to understanding how Linux truly runs on embedded systems.  
-I’ll be sharing more tips and step-by-step guides as I go deeper.
-
+Hi! I'm **Jenuzwaraj**, an Embedded & IoT Engineer.  
+This is my first post — I’ll share my projects, tutorials, and tips here.
