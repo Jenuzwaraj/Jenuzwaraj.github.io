@@ -1,45 +1,49 @@
----
-layout: post
-title: "Building My Own Linux Distro with Yocto Project"
-date: 2025-09-22
-categories: yocto embedded linux
----
 
-## Why I Chose Yocto Project  
-As an embedded and IoT engineer, I often need a lightweight, highly customized Linux for my hardware.  
-Instead of relying on pre-built distributions, I wanted to learn how to **build my own Linux image** from scratch.  
-That’s where the **Yocto Project** comes in.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jenuzwaraj Embedded Blog</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Jenuzwaraj Embedded Blog</h1>
+    <p class="tagline">Projects • Tutorials • IoT • Linux</p>
+  </header>
 
----
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="#blog">Blog</a>
+    <a href="#about">About</a>
+  </nav>
 
-## What I Did  
-- Downloaded **Poky** (Yocto’s reference build system).  
-- Set up the build environment on my workstation.  
-- Configured **layers** and **recipes** for my specific board.  
-- Built a custom **embedded Linux distro** tailored to my project’s requirements.
+  <main>
+    <section id="blog">
+      <h2>📝 Latest Blog Posts</h2>
 
----
+      <article class="post">
+        <h3>Building My Own Linux Distro with Yocto Project</h3>
+        <p class="date">2025-09-22</p>
+        <p>
+          As an embedded and IoT engineer, I needed a custom Linux image for my board. I used the Yocto Project to build a minimal distro tailored to my hardware...
+        </p>
+        <a href="yocto-project.html">Read more →</a>
+      </article>
 
-## Highlights of the Build  
-- **Layers & Recipes:** Added support for my target board and extra packages.  
-- **Toolchain:** Cross-compiled for ARM, ensuring smooth integration with my embedded hardware.  
-- **Optimizations:** Removed unnecessary services, reducing boot time and image size.  
+      <!-- You can add more blog post previews here -->
+    </section>
 
----
+    <section id="about">
+      <h2>👨‍💻 About Me</h2>
+      <p>I'm <strong>Jenuzwaraj</strong>, an Embedded & IoT Engineer with a passion for hands-on system building, real-time control, and Linux-based development.</p>
+      <p>This blog is my public lab notebook — sharing real projects, troubleshooting notes, and open source ideas.</p>
+    </section>
+  </main>
 
-## Lessons Learned  
-- **Layering is power:** Each layer can be isolated, maintained, and reused.  
-- **Reproducibility matters:** Using Yocto guarantees a predictable build environment.  
-- **Patience pays off:** The first build takes time, but incremental builds are faster.
-
----
-
-## What’s Next  
-- Adding **custom device drivers** into the Yocto build.  
-- Automating builds with **CI/CD** on GitHub Actions.  
-- Documenting my process so others can follow along.
-
----
-
-
-
+  <footer>
+    <p>© 2025 Jenuzwaraj. All rights reserved.</p>
+  </footer>
+</body>
+</html>
