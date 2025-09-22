@@ -1,56 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yocto Project – Jenuzwaraj</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yocto Project – Jenuzwaraj</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="yocto-project.html" class="active">Yocto Project</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <h1>Yocto Project: Building My Own Linux Distro</h1>
+    <p class="tagline">Posted on 2025-09-22</p>
+  </header>
 
-    <section class="yocto-project">
-        <div class="yocto-content">
-            <h1>Yocto Project – Custom Embedded Linux Development</h1>
-            <p>As an Embedded & IoT Engineer, I've utilized the Yocto Project to build custom Linux distributions tailored for specific hardware platforms. This experience has enhanced my skills in creating optimized and maintainable embedded systems.</p>
+  <main>
+    <section>
+      <p>As an embedded and IoT engineer, I often need a lightweight, highly customized Linux for my hardware.</p>
 
-            <h2>Key Projects Involving Yocto</h2>
-            <ul>
-                <li><strong>Custom Linux Distribution for ESP32</strong>: Developed a minimal Linux image using Yocto for the ESP32 platform, enabling efficient resource utilization.</li>
-                <li><strong>Automated Build System with Yocto</strong>: Implemented a continuous integration pipeline using Yocto to automate the building and deployment of embedded Linux images.</li>
-                <li><strong>Integration of OpenCV with Yocto</strong>: Customized Yocto recipes to include OpenCV libraries, facilitating real-time image processing on embedded devices.</li>
-            </ul>
+      <h2>Why I Chose Yocto</h2>
+      <p>Instead of using off-the-shelf distros, I wanted full control of my build system. Yocto lets me build a Linux image tailored to my exact board and use case.</p>
 
-            <h2>Skills Acquired</h2>
-            <ul>
-                <li>Proficiency in creating custom Yocto layers and recipes</li>
-                <li>Experience with BitBake build system and Yocto metadata</li>
-                <li>Integration of third-party software packages into Yocto builds</li>
-                <li>Optimization of Linux kernel configurations for embedded systems</li>
-            </ul>
+      <h2>Project Overview</h2>
+      <ul>
+        <li>Set up Poky (Yocto’s build system)</li>
+        <li>Configured layers & recipes for my board</li>
+        <li>Added cross-compiled packages</li>
+        <li>Built a clean embedded Linux distro</li>
+      </ul>
 
-            <h2>Resources for Learning Yocto</h2>
-            <p>To further explore the Yocto Project, consider the following resources:</p>
-            <ul>
-                <li><a href="https://docs.yoctoproject.org/2.4/yocto-project-qs/yocto-project-qs.html" target="_blank">Yocto Project Quick Start Guide</a></li>
-                <li><a href="https://wiki.yoctoproject.org/wiki/Main_Page" target="_blank">Yocto Project Wiki</a></li>
-                <li><a href="https://www.yoctoproject.org/" target="_blank">Official Yocto Project Website</a></li>
-            </ul>
-        </div>
+      <h2>Next Steps</h2>
+      <p>Adding custom drivers, integrating CI/CD workflows, and exploring OTA updates in embedded Yocto workflows.</p>
     </section>
+  </main>
 
-    <footer>
-        <p>&copy; 2025 Jenuzwaraj. All rights reserved.</p>
-    </footer>
+  <footer>
+    <p>© 2025 Jenuzwaraj</p>
+  </footer>
 </body>
 </html>
 
