@@ -1,53 +1,72 @@
+/* --- existing stuff above remains --- */
+
 body {
   font-family: system-ui, sans-serif;
   margin: 0;
-  background: #f7f7f7;
-  color: #333;
+  background: linear-gradient(135deg, #000000, #333333);
+  color: #eee;
 }
-header {
-  background: #222;
-  color: white;
+
+header.site-header {
+  background: linear-gradient(135deg, #111111, #444444);
+  color: #ffffff;
   padding: 2rem 1rem;
   text-align: center;
 }
-.tagline {
-  font-weight: 300;
-  color: #ccc;
-}
+
 nav {
-  background: #444;
+  background: #222;
   padding: 0.5rem;
   text-align: center;
 }
+
 nav a {
-  color: white;
+  color: #ddd;
   text-decoration: none;
   margin: 0 1rem;
   font-weight: bold;
 }
-main {
-  padding: 2rem;
-  max-width: 800px;
-  margin: auto;
+
+.posts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
 }
-section {
-  margin-bottom: 3rem;
-}
+
 .post {
-  background: white;
+  background: #1e1e1e;
   padding: 1rem;
-  margin-bottom: 1.5rem;
   border-radius: 6px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s, background 0.2s;
 }
+
+.post:hover {
+  transform: translateY(-4px);
+  background: #2a2a2a;
+}
+
 .post .date {
   font-size: 0.9rem;
-  color: #777;
+  color: #aaa;
 }
+
+.post.placeholder {
+  background: #2b2b2b;
+  color: #999;
+}
+
+.post.placeholder a {
+  pointer-events: none;
+  color: #777;
+  text-decoration: none;
+}
+
 footer {
   text-align: center;
   padding: 1rem;
   background: #222;
-  color: white;
+  color: #ccc;
   font-size: 0.85rem;
 }
+
