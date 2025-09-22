@@ -1,5 +1,3 @@
-/* --- existing stuff above remains --- */
-
 body {
   font-family: system-ui, sans-serif;
   margin: 0;
@@ -14,9 +12,16 @@ header.site-header {
   text-align: center;
 }
 
+.tagline {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: #ccc;
+  margin-top: 0.5rem;
+}
+
 nav {
   background: #222;
-  padding: 0.5rem;
+  padding: 0.75rem;
   text-align: center;
 }
 
@@ -25,6 +30,20 @@ nav a {
   text-decoration: none;
   margin: 0 1rem;
   font-weight: bold;
+  font-size: 1rem;
+}
+
+main {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+section#blog h2 {
+  color: #fff;
+  border-bottom: 2px solid #555;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .posts-container {
@@ -35,8 +54,8 @@ nav a {
 
 .post {
   background: #1e1e1e;
-  padding: 1rem;
-  border-radius: 6px;
+  padding: 1.2rem;
+  border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   transition: transform 0.2s, background 0.2s;
 }
@@ -49,6 +68,28 @@ nav a {
 .post .date {
   font-size: 0.9rem;
   color: #aaa;
+  margin-bottom: 0.5rem;
+}
+
+.post h3 {
+  margin-top: 0;
+  color: #fff;
+}
+
+.post p {
+  color: #ccc;
+  line-height: 1.4;
+}
+
+.post a {
+  display: inline-block;
+  margin-top: 0.8rem;
+  color: #1e90ff;
+  text-decoration: none;
+}
+
+.post a:hover {
+  text-decoration: underline;
 }
 
 .post.placeholder {
@@ -60,6 +101,16 @@ nav a {
   pointer-events: none;
   color: #777;
   text-decoration: none;
+}
+
+section#about {
+  margin-top: 3rem;
+  color: #ddd;
+}
+
+section#about h2 {
+  color: #fff;
+  margin-bottom: 0.75rem;
 }
 
 footer {
