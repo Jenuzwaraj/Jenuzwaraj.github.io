@@ -17,7 +17,7 @@ I'm **Jenuzwaraj**, an Embedded & IoT Engineer based in **Palakkad, Kerala, Indi
 You can connect with me here:
 
 - 📧 Email: [jenuswaraj@gmail.com](mailto:jenuswaraj@gmail.com)
-- 🔗 LinkedIn: [linkedin.com/in/jenu-swaraj](https://linkedin.com/in/jenu-swaraj)
+- 🔗 LinkedIn: [linkedin.com/in/jenu-swaraj](https://www.linkedin.com/in/jenu-swaraj-3ab8b7284)
 - 🐙 GitHub: [github.com/Jenuzwaraj](https://github.com/Jenuzwaraj)
 
 ---
