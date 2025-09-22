@@ -1,47 +1,32 @@
----
-layout: post
-title: "Building My Own Linux Distro with Yocto Project"
-date: 2025-09-22
-categories: yocto embedded linux
----
+# Jenuzwaraj Embedded Blog
 
-## Why I Chose Yocto Project  
-As an embedded and IoT engineer, I often need a lightweight, highly customized Linux for my hardware.  
-Instead of relying on pre-built distributions, I wanted to learn how to **build my own Linux image** from scratch.  
-That’s where the **Yocto Project** comes in.
+Welcome to **Jenuzwaraj Embedded Blog** — where I share my projects, tutorials, and experiments in Embedded Systems, IoT, Linux, and more.
 
 ---
 
-## What I Did  
-- Downloaded **Poky** (Yocto’s reference build system).  
-- Set up the build environment on my workstation.  
-- Configured **layers** and **recipes** for my specific board.  
-- Built a custom **embedded Linux distro** tailored to my project’s requirements.
+## 🚀 About
+
+- **Owner / Author**: Jenuzwaraj  
+- **Role**: Embedded & IoT Engineer  
+- **Purpose**: This blog is my public lab notebook. I’ll document what I build — from Yocto Linux builds to ESP32 projects and battery/inverter designs.  
 
 ---
 
-## Highlights of the Build  
-- **Layers & Recipes:** Added support for my target board and extra packages.  
-- **Toolchain:** Cross-compiled for ARM, ensuring smooth integration with my embedded hardware.  
-- **Optimizations:** Removed unnecessary services, reducing boot time and image size.  
+## 📂 Repository Structure
+
+| File / Folder        | Description                                              |
+|-----------------------|----------------------------------------------------------|
+| `index.html`          | Homepage & list of blog post previews                   |
+| `style.css`           | Styles (CSS) for the blog theme                         |
+| `yocto-project.html`   | Full content for “Blog 1: Yocto Project” post          |
+| `blog2.html`, etc.     | (Future) placeholders / full posts for Blog 2, 3, 4     |
+| `README.md`           | This file — describes the project, usage, etc.          |
 
 ---
 
-## Lessons Learned  
-- **Layering is power:** Each layer can be isolated, maintained, and reused.  
-- **Reproducibility matters:** Using Yocto guarantees a predictable build environment.  
-- **Patience pays off:** The first build takes time, but incremental builds are faster.
+## 🎯 Usage / How to Contribute
 
----
-
-## What’s Next  
-- Adding **custom device drivers** into the Yocto build.  
-- Automating builds with **CI/CD** on GitHub Actions.  
-- Documenting my process so others can follow along.
-
----
-
-### Takeaway  
-The Yocto Project isn’t just a tool — it’s a gateway to understanding how Linux truly runs on embedded systems.  
-I’ll be sharing more tips and step-by-step guides as I go deeper.
+1. Clone or fork this repository  
+   ```bash
+   git clone https://github.com/jenuzwaraj/jenuzwaraj.github.io.git
 
