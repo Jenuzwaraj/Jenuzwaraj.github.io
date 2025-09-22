@@ -1,32 +1,66 @@
-# Jenuzwaraj Embedded Blog
+# 🛠️ Jenuzwaraj Embedded Blog
 
-Welcome to **Jenuzwaraj Embedded Blog** — where I share my projects, tutorials, and experiments in Embedded Systems, IoT, Linux, and more.
-
----
-
-## 🚀 About
-
-- **Owner / Author**: Jenuzwaraj  
-- **Role**: Embedded & IoT Engineer  
-- **Purpose**: This blog is my public lab notebook. I’ll document what I build — from Yocto Linux builds to ESP32 projects and battery/inverter designs.  
+Welcome to my personal blog, where I share my journey and projects in the world of Embedded Systems, IoT, and Linux development.
 
 ---
 
-## 📂 Repository Structure
+## 👨‍💻 About Me
 
-| File / Folder        | Description                                              |
-|-----------------------|----------------------------------------------------------|
-| `index.html`          | Homepage & list of blog post previews                   |
-| `style.css`           | Styles (CSS) for the blog theme                         |
-| `yocto-project.html`   | Full content for “Blog 1: Yocto Project” post          |
-| `blog2.html`, etc.     | (Future) placeholders / full posts for Blog 2, 3, 4     |
-| `README.md`           | This file — describes the project, usage, etc.          |
+I'm **Jenuzwaraj**, an Embedded & IoT Engineer based in **Palakkad, Kerala, India**. With a passion for building real-world applications, I specialize in:
+
+- **Languages**: Embedded C, Python, C++
+- **Platforms**: ESP32, Raspberry Pi, Atmega16
+- **Protocols**: MODBUS, SPI, I2C, UART
+- **Libraries/Frameworks**: OpenCV, YOLO, TensorFlow, Pandas
+- **Systems**: Linux, Device Drivers, Yocto
+
+You can connect with me here:
+
+- 📧 Email: [jenuswaraj@gmail.com](mailto:jenuswaraj@gmail.com)
+- 🔗 LinkedIn: [linkedin.com/in/jenu-swaraj](https://linkedin.com/in/jenu-swaraj)
+- 🐙 GitHub: [github.com/Jenuzwaraj](https://github.com/Jenuzwaraj)
 
 ---
 
-## 🎯 Usage / How to Contribute
+## 📝 Featured Projects
 
-1. Clone or fork this repository  
-   ```bash
-   git clone https://github.com/jenuzwaraj/jenuzwaraj.github.io.git
+Here are some of the projects I've worked on:
+
+- **Yocto Project – Custom Linux Distro**: A deep dive into building a custom Linux distribution using the Yocto Project.
+- **ESP32 Quadbot**: Development of a quadruped robot using ESP32 for terrain navigation.
+- **Handwriting Machine**: A precision writing machine built with Arduino and 3D-printed parts.
+
+---
+
+## 📚 Blog Highlights
+
+Explore my blog for detailed articles and tutorials:
+
+- [Yocto Project – Custom Linux Distro](yocto-project.html)
+- [ESP32 Quadbot: Building a Quadruped Robot](esp32-quadbot.html)
+- [Handwriting Machine: Combining Arduino with 3D Printing](handwriting-machine.html)
+
+---
+
+## 🎯 Vision
+
+This blog serves as a public notebook to document my experiments, learnings, and projects. I aim to:
+
+- Share insights into embedded systems development
+- Provide tutorials and guides for hands-on projects
+- Foster a community of like-minded enthusiasts and professionals
+
+---
+
+## 📌 Stay Connected
+
+Feel free to reach out or follow my work:
+
+- 📧 Email: [jenuswaraj@gmail.com](mailto:jenuswaraj@gmail.com)
+- 🔗 LinkedIn: [linkedin.com/in/jenu-swaraj](https://linkedin.com/in/jenu-swaraj)
+- 🐙 GitHub: [github.com/Jenuzwaraj](https://github.com/Jenuzwaraj)
+
+---
+
+Thank you for visiting my blog. I hope you find the content insightful and inspiring. Let's build something amazing together!
 
