@@ -8,19 +8,23 @@
 </head>
 <body>
 
-<header>
+<!-- HEADER -->
+<header id="home">
   <h1>Jenuzwaraj Embedded Blog</h1>
   <p>Projects • Tutorials • IoT • Linux</p>
 </header>
 
+<!-- NAVIGATION -->
 <nav>
-  <a href="#">Home</a>
-  <a href="blog.html">Blog</a>
-  <a href="about.html">About</a>
+  <a href="#home">Home</a>
+  <a href="#blog">Blog</a>
+  <a href="#about">About</a>
 </nav>
 
+<!-- MAIN CONTENT -->
 <div class="container">
-  <h2>📝 Latest Blog Posts</h2>
+  <!-- BLOG SECTION -->
+  <h2 id="blog">📝 Latest Blog Posts</h2>
   <div class="blog-grid">
     <!-- Blog 1 -->
     <div class="blog-card">
@@ -52,7 +56,8 @@
     </div>
   </div>
 
-  <div class="about">
+  <!-- ABOUT SECTION -->
+  <div class="about" id="about">
     <h2>👨‍💻 About Me</h2>
     <p>I'm Jenuzwaraj, an Embedded & IoT Engineer with a deep passion for building real-time systems, optimizing performance, and solving complex hardware-software integration challenges.</p>
     <p>With hands-on experience in microcontroller programming, embedded Linux (Yocto, Buildroot), and industrial IoT systems, I enjoy turning raw boards into production-ready smart devices. My journey involves working on everything from bootloaders and kernel customization to writing device drivers and deploying OTA updates.</p>
@@ -69,6 +74,7 @@
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer>
   © 2025 Jenuzwaraj. All rights reserved.
 </footer>
