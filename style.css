@@ -1,9 +1,14 @@
-
+/* === Color Palette === */
 :root {
   --color-base-minus20: #C1BD57; /* darkest */
   --color-base-minus5:  #D5D38F; /* darker */
   --color-base:         #DEDCA5; /* base */
   --color-base-plus10:  #EAE9C7; /* lightest */
+}
+
+/* Smooth scrolling for anchors */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Global styles */
