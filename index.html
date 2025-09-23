@@ -1,93 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jenuzwaraj Embedded Blog</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jenuzwaraj Embedded Blog</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header">
-    <h1>Jenuzwaraj Embedded Blog</h1>
-    <p class="tagline">Projects • Tutorials • IoT • Linux</p>
-  </header>
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="#blog">Blog</a>
-    <a href="#about">About</a>
-  </nav>
+<header>
+  <h1>Jenuzwaraj Embedded Blog</h1>
+  <p>Projects • Tutorials • IoT • Linux</p>
+</header>
 
-  <main>
-    <section id="blog">
-      <h2>📝 Latest Blog Posts</h2>
+<nav>
+  <a href="#">Home</a>
+  <a href="#">Blog</a>
+  <a href="#">About</a>
+</nav>
 
-      <div class="posts-container">
-        <article class="post">
-          <h3>Blog 1: Yocto Project – Linux Distro</h3>
-          <p class="date">2025-09-22</p>
-          <p>
-            My journey building a custom embedded Linux image using the Yocto Project…
-          </p>
-          <a href="yocto-project.html">Read more →</a>
-        </article>
+<div class="container">
+  <h2>📝 Latest Blog Posts</h2>
+  <div class="blog-grid">
+    <!-- Blog 1 -->
+    <div class="blog-card">
+      <h3>Yocto Project – Linux Distro</h3>
+      <small>2025-09-22</small>
+      <p>My journey building a custom embedded Linux image using the Yocto Project…</p>
+      <a href="yocto-project.html">Read more →</a>
+    </div>
+    <!-- Blog 2 -->
+    <div class="blog-card">
+      <h3>Coming Soon</h3>
+      <small>Date TBD</small>
+      <p>Details coming soon…</p>
+      <a href="#">Read more →</a>
+    </div>
+    <!-- Blog 3 -->
+    <div class="blog-card">
+      <h3>Coming Soon</h3>
+      <small>Date TBD</small>
+      <p>Details coming soon…</p>
+      <a href="#">Read more →</a>
+    </div>
+    <!-- Blog 4 -->
+    <div class="blog-card">
+      <h3>Coming Soon</h3>
+      <small>Date TBD</small>
+      <p>Details coming soon…</p>
+      <a href="#">Read more →</a>
+    </div>
+  </div>
 
-        <article class="post placeholder">
-          <h3>Blog 2: Coming Soon</h3>
-          <p class="date">Date TBD</p>
-          <p>
-            Details coming soon…
-          </p>
-          <a href="#">Read more →</a>
-        </article>
+  <div class="about">
+    <h2>👨‍💻 About Me</h2>
+    <p>I'm Jenuzwaraj, an Embedded & IoT Engineer with a deep passion for building real-time systems, optimizing performance, and solving complex hardware-software integration challenges.</p>
+    <p>With hands-on experience in microcontroller programming, embedded Linux (Yocto, Buildroot), and industrial IoT systems, I enjoy turning raw boards into production-ready smart devices. My journey involves working on everything from bootloaders and kernel customization to writing device drivers and deploying OTA updates.</p>
+    <p>This blog is my public lab notebook — sharing real projects, personal experiments, tutorials, and open source ideas. Whether you're a beginner trying to set up your first Linux build or a fellow engineer debugging weird SPI behavior at midnight — you’ll probably find something here for you.</p>
+    <p><strong>📌 What to Expect from This Blog</strong></p>
+    <ul>
+      <li>Step-by-step guides on embedded Linux development</li>
+      <li>IoT project builds with schematics and source code</li>
+      <li>Boot-time optimization and real-time debugging tips</li>
+      <li>Open-source tools and custom driver tutorials</li>
+      <li>Behind-the-scenes notes from actual engineering work</li>
+    </ul>
+    <p>If you're someone who loves building from the bare metal up — welcome aboard. Let's tinker, break, and learn together.</p>
+  </div>
+</div>
 
-        <article class="post placeholder">
-          <h3>Blog 3: Coming Soon</h3>
-          <p class="date">Date TBD</p>
-          <p>
-            Details coming soon…
-          </p>
-          <a href="#">Read more →</a>
-        </article>
+<footer>
+  © 2025 Jenuzwaraj. All rights reserved.
+</footer>
 
-        <article class="post placeholder">
-          <h3>Blog 4: Coming Soon</h3>
-          <p class="date">Date TBD</p>
-          <p>
-            Details coming soon…
-          </p>
-          <a href="#">Read more →</a>
-        </article>
-      </div>
-    </section>
-
-   <section id="about">
-  <h2>👨‍💻 About Me</h2>
-  <p>I'm <strong>Jenuzwaraj</strong>, an Embedded & IoT Engineer with a deep passion for building real-time systems, optimizing performance, and solving complex hardware-software integration challenges.</p>
-
-  <p>With hands-on experience in microcontroller programming, embedded Linux (Yocto, Buildroot), and industrial IoT systems, I enjoy turning raw boards into production-ready smart devices. My journey involves working on everything from bootloaders and kernel customization to writing device drivers and deploying OTA updates.</p>
-
-  <p>This blog is my public lab notebook — sharing real projects, personal experiments, tutorials, and open source ideas. Whether you're a beginner trying to set up your first Linux build or a fellow engineer debugging weird SPI behavior at midnight — you’ll probably find something here for you.</p>
-
-
-
-  <h3>📌 What to Expect from This Blog</h3>
-  <ul>
-    <li>Step-by-step guides on embedded Linux development</li>
-    <li>IoT project builds with schematics and source code</li>
-    <li>Boot-time optimization and real-time debugging tips</li>
-    <li>Open-source tools and custom driver tutorials</li>
-    <li>Behind-the-scenes notes from actual engineering work</li>
-  </ul>
-
-  <p>If you're someone who loves building from the bare metal up — welcome aboard. Let's tinker, break, and learn together.</p>
-</section>
-
-  </main>
-
-  <footer>
-    <p>© 2025 Jenuzwaraj. All rights reserved.</p>
-  </footer>
 </body>
 </html>
 
