@@ -38,7 +38,7 @@ Explore my blog for detailed articles and tutorials:
 
 - [Yocto Project – Custom Linux Distro](yocto-project.html)
 - [ESP32 Quadbot: Building a Quadruped Robot](esp32-quadbot.html)
-- [blog 3
+
 
 ---
 
