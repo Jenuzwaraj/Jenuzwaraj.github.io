@@ -2,28 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Yocto on WSL2 - Full QEMU Build Guide</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #ADD8E6; /* Light Blue */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ADD8E6;
       color: #222;
       line-height: 1.7;
     }
-
     header {
-      background-color: #E6BBAD; /* Zinnwaldite */
+      background-color: #E6BBAD;
       padding: 60px 20px;
       text-align: center;
       color: #222;
     }
-
     header h1 {
       margin: 0;
       font-size: 2.8rem;
     }
-
     header p {
       font-size: 1.3rem;
       margin-top: 10px;
@@ -31,25 +29,27 @@
       margin-left: auto;
       margin-right: auto;
     }
-
     section {
       padding: 50px 60px;
-      background-color: #ffffff;
+      background-color: #fff;
       border-bottom: 1px solid #ccc;
+      max-width: 950px;
+      margin: 0 auto 2rem auto;
+      border-radius: 10px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.06);
     }
-
     h2 {
-      color: #E6ADD8; /* French Lilac */
-      border-left: 8px solid #ADE6BB; /* Chinook */
+      color: #E6ADD8;
+      border-left: 8px solid #ADE6BB;
       padding-left: 12px;
       margin-top: 0;
+      font-size: 2rem;
     }
-
     h3 {
       color: #555;
       margin-top: 30px;
+      font-size: 1.2rem;
     }
-
     code, pre {
       background-color: #f4f4f4;
       padding: 12px;
@@ -58,45 +58,110 @@
       border-left: 5px solid #ADE6BB;
       font-family: monospace;
       overflow-x: auto;
+      font-size: 1rem;
+      border-radius: 6px;
     }
-
     ul {
-      margin: 12px 0;
+      margin: 12px 0 12px 1.5rem;
     }
-
     .note {
       background-color: #E6ADD8;
       padding: 12px 15px;
       margin: 25px 0;
       border-left: 5px solid #E6BBAD;
       font-style: italic;
+      border-radius: 6px;
     }
-
     footer {
-      background-color: #ADE6BB; /* Chinook */
+      background-color: #ADE6BB;
       color: #222;
       text-align: center;
       padding: 25px;
       font-weight: bold;
+      font-size: 1rem;
+    }
+    a {
+      color: #E6ADD8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 900px) {
+      section {
+        padding: 30px 14px;
+        max-width: 99vw;
+      }
+      header {
+        padding: 36px 8px;
+      }
+      header h1 {
+        font-size: 2.1rem;
+      }
+      h2 {
+        font-size: 1.45rem;
+        padding-left: 9px;
+      }
+      h3 {
+        font-size: 1.07rem;
+      }
+      code, pre {
+        font-size: 0.89rem;
+        padding: 8px;
+      }
+    }
+    @media (max-width: 600px) {
+      section {
+        padding: 18px 3vw;
+        border-radius: 6px;
+        margin-bottom: 1rem;
+      }
+      header {
+        padding: 18px 5vw;
+      }
+      header h1 {
+        font-size: 1.26rem;
+      }
+      header p {
+        font-size: 1.01rem;
+        margin-top: 6px;
+      }
+      h2 {
+        font-size: 1.1rem;
+        padding-left: 4px;
+      }
+      h3 {
+        font-size: 0.98rem;
+      }
+      code, pre {
+        font-size: 0.78rem;
+        padding: 5px;
+        border-radius: 4px;
+      }
+      footer {
+        padding: 12px;
+        font-size: 0.95rem;
+      }
+      ul {
+        margin-left: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>Yocto Project on WSL2 — Full Guide for QEMU Emulation</h1>
+    <h1>Yocto Project on WSL2 — QEMU Emulation</h1>
     <p>
-      Learn how to build custom Linux images using the Yocto Project inside a WSL2 Ubuntu environment,
-      targeting the QEMU emulator — with preparation for deploying to Raspberry Pi hardware.
+      Learn how to build custom Linux images using the Yocto Project inside a WSL2 Ubuntu environment
+      targeting the QEMU emulator, with preparation for deploying to Raspberry Pi hardware.
     </p>
   </header>
   <section>
     <h2>🌍 What is the Yocto Project?</h2>
     <p>
-      The <strong>Yocto Project</strong> is a powerful open-source framework designed for building custom Linux-based operating systems for embedded devices. 
-      Instead of using a prebuilt distro like Ubuntu or Debian, Yocto enables you to create your own distribution from scratch — including choosing the kernel, package manager, services, desktop environment (if needed), and target architecture.
+      The <strong>Yocto Project</strong> is a powerful open-source framework designed for building custom Linux-based operating systems for embedded devices.
+      Instead of using a prebuilt distro like Ubuntu or Debian, Yocto enables you to create your own distribution from scratch—including choosing the kernel, package manager, services, desktop environment, and more.
     </p>
-
     <h3>Why Yocto?</h3>
     <ul>
       <li>Fully customizable Linux OS for embedded systems</li>
@@ -105,12 +170,10 @@
       <li>Extensible via layers and metadata</li>
       <li>Strong community and commercial backing</li>
     </ul>
-
     <div class="note">
       Unlike general-purpose distros, Yocto is ideal for embedded applications such as IoT devices, drones, robots, automotive systems, routers, etc.
     </div>
   </section>
-
   <section>
     <h2>📦 What is Poky?</h2>
     <p>
@@ -121,20 +184,17 @@
       <li><strong>Metadata</strong> - recipes, classes, configuration files</li>
       <li><strong>Base layers</strong> - meta, meta-poky, meta-yocto-bsp</li>
     </ul>
-
     <h3>Why use Poky?</h3>
     <p>
-      Poky simplifies getting started with Yocto by bundling everything into a tested and validated set of layers and tools. Once you master Poky, you can branch out into more customized setups or use other vendor layers.
+      Poky simplifies getting started with Yocto by bundling everything into a tested and validated set of layers and tools. Once you master Poky, you can branch out into more customized setups or use other vendor BSPs.
     </p>
   </section>
-
   <section>
     <h2>🧪 Why Use QEMU for Yocto Development?</h2>
     <p>
-      <strong>QEMU</strong> (Quick Emulator) is a powerful, open-source machine emulator that lets you run entire operating systems virtually — no physical hardware needed.
-      Yocto includes support for several QEMU machines, like <code>qemux86</code>, <code>qemux86-64</code>, <code>qemuarm</code>, and <code>qemumips</code>.
+      <strong>QEMU</strong> (Quick Emulator) is a powerful, open-source machine emulator that lets you run entire operating systems virtually—no physical hardware needed.
+      Yocto includes support for several QEMU machines, like <code>qemux86</code> <code>qemux86-64</code> <code>qemuarm</code> <code>qemumips</code>
     </p>
-
     <h3>Benefits of QEMU during development:</h3>
     <ul>
       <li>Test images before deploying to hardware</li>
@@ -142,52 +202,44 @@
       <li>No risk of bricking real devices</li>
       <li>Automate testing and CI/CD pipelines</li>
     </ul>
-
     <div class="note">
-      In this guide, we’ll build a Yocto image for <code>qemux86-64</code>, test it using QEMU, and prepare to adapt the same build flow for real hardware like the Raspberry Pi.
+      In this guide, we’ll build a Yocto image for <code>qemux86-64</code> test it using QEMU, and prepare to adapt the same build flow for real hardware like the Raspberry Pi.
     </div>
   </section>
   <section>
     <h2>📁 Step 1: Set Up the Yocto Project Directory</h2>
     <p>
-      We’ll keep all our Yocto-related files under a parent directory called <code>~/yocto</code>. This makes it easier to organize your workspace.
+      We’ll keep all our Yocto-related files under a parent directory called <code>~/yocto</code>This makes it easier to organize your workspace.
     </p>
-
     <h3>✅ Create Base Directory</h3>
     <pre><code>mkdir -p ~/yocto
 cd ~/yocto</code></pre>
-
     <h3>✅ Clone the Poky Repository</h3>
     <p>
       Poky is the core of the Yocto Project. Let’s clone it from the official Git repository:
     </p>
     <pre><code>git clone git://git.yoctoproject.org/poky
 cd poky</code></pre>
-
     <div class="note">
-      You can also check out a specific release tag (e.g., <code>git checkout kirkstone</code>) if you want a stable version.
+      You can also check out a specific release tag  <code>git checkout kirkstone</code> if you want a stable version.
     </div>
-
     <h3>✅ Clone Additional Useful Layers</h3>
     <p>
       Layers are modular building blocks in Yocto. Some useful ones include:
     </p>
     <pre><code>git clone git://git.yoctoproject.org/meta-openembedded</code></pre>
-
     <h3>✅ Resulting Directory Tree</h3>
     <p>After these steps, your Yocto project structure will look like this:</p>
-
     <pre><code>~/yocto/
 ├── poky/
-│   ├── bitbake/          # Build tool
-│   ├── meta/             # Core metadata
-│   ├── meta-poky/        # Poky distribution config
-│   ├── meta-yocto-bsp/   # Board Support Packages
+│   ├── bitbake/
+│   ├── meta/
+│   ├── meta-poky/
+│   ├── meta-yocto-bsp/
 │   └── ...
-├── meta-openembedded/    # Community-contributed layers
-└── build/                # Created after environment init
+├── meta-openembedded/
+└── build/
 </code></pre>
-
     <div class="note">
       Each layer can provide recipes, classes, configuration files, and machine-specific support.
     </div>
@@ -197,49 +249,42 @@ cd poky</code></pre>
     <p>
       Since Yocto relies on a number of build and development tools, we’ll need to install these dependencies on your WSL2 Ubuntu environment.
     </p>
-
     <h3>✅ Update and Install Packages</h3>
     <pre><code>sudo apt update
 sudo apt install -y gawk wget git-core diffstat unzip texinfo gcc \
   build-essential chrpath socat cpio python3 python3-pip python3-pexpect \
   xz-utils debianutils iputils-ping libsdl1.2-dev xterm</code></pre>
-
     <h3>✅ Optional but Recommended</h3>
-    <pre><code>sudo apt install libsdl2-dev </code></pre>
+    <pre><code>sudo apt install libsdl2-dev</code></pre>
     <p>This enables graphical support in QEMU.</p>
-
     <h3>Why These Packages?</h3>
     <ul>
-      <li><code>gawk</code>, <code>wget</code>, <code>unzip</code> — scripting & downloads</li>
-      <li><code>gcc</code>, <code>build-essential</code> — compiling code</li>
-      <li><code>chrpath</code>, <code>socat</code>, <code>cpio</code> — used in various Yocto recipes</li>
+      <li><code>gawk</code> <code>wget</code> <code>unzip</code> — scripting & downloads</li>
+      <li><code>gcc</code> <code>build-essential</code> — compiling code</li>
+      <li><code>chrpath</code> <code>socat</code> <code>cpio</code> — used in various Yocto recipes</li>
       <li><code>python3*</code> — Yocto uses Python 3 for configuration and build tools</li>
     </ul>
-
     <div class="note">
       Some components of Yocto (like BitBake) are sensitive to missing system libraries. Always ensure your build system is fully updated.
     </div>
   </section>
-
   <section>
     <h2>⚠️ WSL2 Compatibility Notes</h2>
     <p>
-      While not officially supported by the Yocto Project, **WSL2** works well for building QEMU images with a few caveats:
+      While not officially supported by the Yocto Project, <strong>WSL2</strong> works well for building QEMU images with a few caveats:
     </p>
     <ul>
       <li>No systemd or full init support (some host sanity checks may fail)</li>
       <li>No hardware emulation (use QEMU only in software mode)</li>
-      <li>Ensure your distro has enough RAM & CPU (allocate via WSL2 .wslconfig)</li>
+      <li>Ensure your distro has enough RAM & CPU (allocate via WSL2 <code>.wslconfig</code></li>
     </ul>
-
     <h3>Example <code>.wslconfig</code> for Performance</h3>
     <p>Create <code>C:\Users\YourName\.wslconfig</code> in Windows with:</p>
     <pre><code>[wsl2]
 memory=8GB
 processors=4</code></pre>
-
     <div class="note">
-      After editing <code>.wslconfig</code>, restart WSL2 using <code>wsl --shutdown</code> in PowerShell or CMD.
+      After editing <code>.wslconfig</code> restart WSL2 using <code>wsl --shutdown</code> in PowerShell or CMD.
     </div>
   </section>
   <section>
@@ -247,167 +292,65 @@ processors=4</code></pre>
     <p>
       After cloning Poky and installing dependencies, we now set up the build environment. This creates the working directory where all image builds, temporary files, and configuration will reside.
     </p>
-
     <h3>✅ Initialize Build Directory</h3>
     <p>From the <code>poky/</code> directory, run:</p>
     <pre><code>cd ~/yocto/poky
 source oe-init-build-env build</code></pre>
-
     <p>This command does two things:</p>
     <ul>
       <li>Creates a new directory called <code>build/</code></li>
       <li>Switches you into it and sets up environment variables</li>
     </ul>
-
     <div class="note">
       You'll need to run <code>source oe-init-build-env build</code> in every new terminal session to re-enter the Yocto environment.
     </div>
   </section>
-
   <section>
     <h2>📝 Step 4: Configure Your Build (local.conf)</h2>
     <p>
       The <code>conf/local.conf</code> file is where you set the target machine, distro type, package format, and build behavior.
     </p>
-
     <h3>✅ Edit <code>local.conf</code></h3>
     <pre><code>nano conf/local.conf</code></pre>
-
     <p>Make the following edits:</p>
     <pre><code># Target QEMU machine
 MACHINE ?= "qemux86-64"
-
 # Use Poky distro
 DISTRO ?= "poky"
-
 # Use RPM as package format (can also use ipk or deb)
 PACKAGE_CLASSES ?= "package_rpm"
-
 # Enable useful debugging features
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-dropbear"
-
 # Improve performance based on your system
 BB_NUMBER_THREADS = "4"
 PARALLEL_MAKE = "-j4"
-
 # Disable host OS checks in WSL2
 INHERIT += "uninative"</code></pre>
-
     <h3>Explanation of Key Options:</h3>
     <ul>
       <li><strong>MACHINE</strong>: Sets the target architecture (QEMU 64-bit in this case)</li>
       <li><strong>EXTRA_IMAGE_FEATURES</strong>: Adds SSH and debugging features to the rootfs</li>
       <li><strong>PARALLEL_MAKE</strong>: Uses all CPU cores for faster builds</li>
     </ul>
-
     <div class="note">
       Tip: You can also set <code>DL_DIR</code> and <code>SSTATE_DIR</code> to share downloads across projects.
     </div>
   </section>
-
   <section>
     <h2>🧱 Step 5: Configure Active Layers (bblayers.conf)</h2>
     <p>
       The <code>bblayers.conf</code> file controls which layers Yocto will use during the build.
-      By default, it includes <code>meta</code>, <code>meta-poky</code>, and <code>meta-yocto-bsp</code>.
+      By default, it includes <code>meta</code>, <code>meta-poky</code>and <code>meta-yocto-bsp</code>.
     </p>
-
     <h3>✅ Edit <code>bblayers.conf</code></h3>
     <pre><code>nano conf/bblayers.conf</code></pre>
-
     <p>Add meta-openembedded if you cloned it earlier:</p>
     <pre><code>BBLAYERS ?= " \
   ${TOPDIR}/../poky/meta \
   ${TOPDIR}/../poky/meta-poky \
   ${TOPDIR}/../poky/meta-yocto-bsp \
   ${TOPDIR}/../meta-openembedded/meta-oe \
-"</code></pre>
-
-    <div class="note">
-      Layers must be added in the correct order. Use <code>bitbake-layers show-layers</code> to verify.
-    </div>
-  </section>
-  <section>
-    <h2>⚙️ Step 3: Initialize the Yocto Build Environment</h2>
-    <p>
-      After cloning Poky and installing dependencies, we now set up the build environment. This creates the working directory where all image builds, temporary files, and configuration will reside.
-    </p>
-
-    <h3>✅ Initialize Build Directory</h3>
-    <p>From the <code>poky/</code> directory, run:</p>
-    <pre><code>cd ~/yocto/poky
-source oe-init-build-env build</code></pre>
-
-    <p>This command does two things:</p>
-    <ul>
-      <li>Creates a new directory called <code>build/</code></li>
-      <li>Switches you into it and sets up environment variables</li>
-    </ul>
-
-    <div class="note">
-      You'll need to run <code>source oe-init-build-env build</code> in every new terminal session to re-enter the Yocto environment.
-    </div>
-  </section>
-
-  <section>
-    <h2>📝 Step 4: Configure Your Build (local.conf)</h2>
-    <p>
-      The <code>conf/local.conf</code> file is where you set the target machine, distro type, package format, and build behavior.
-    </p>
-
-    <h3>✅ Edit <code>local.conf</code></h3>
-    <pre><code>nano conf/local.conf</code></pre>
-
-    <p>Make the following edits:</p>
-    <pre><code># Target QEMU machine
-MACHINE ?= "qemux86-64"
-
-# Use Poky distro
-DISTRO ?= "poky"
-
-# Use RPM as package format (can also use ipk or deb)
-PACKAGE_CLASSES ?= "package_rpm"
-
-# Enable useful debugging features
-EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-dropbear"
-
-# Improve performance based on your system
-BB_NUMBER_THREADS = "4"
-PARALLEL_MAKE = "-j4"
-
-# Disable host OS checks in WSL2
-INHERIT += "uninative"</code></pre>
-
-    <h3>Explanation of Key Options:</h3>
-    <ul>
-      <li><strong>MACHINE</strong>: Sets the target architecture (QEMU 64-bit in this case)</li>
-      <li><strong>EXTRA_IMAGE_FEATURES</strong>: Adds SSH and debugging features to the rootfs</li>
-      <li><strong>PARALLEL_MAKE</strong>: Uses all CPU cores for faster builds</li>
-    </ul>
-
-    <div class="note">
-      Tip: You can also set <code>DL_DIR</code> and <code>SSTATE_DIR</code> to share downloads across projects.
-    </div>
-  </section>
-
-  <section>
-    <h2>🧱 Step 5: Configure Active Layers (bblayers.conf)</h2>
-    <p>
-      The <code>bblayers.conf</code> file controls which layers Yocto will use during the build.
-      By default, it includes <code>meta</code>, <code>meta-poky</code>, and <code>meta-yocto-bsp</code>.
-    </p>
-
-    <h3>✅ Edit <code>bblayers.conf</code></h3>
-    <pre><code>nano conf/bblayers.conf</code></pre>
-
-    <p>Add meta-openembedded if you cloned it earlier:</p>
-    <pre><code>BBLAYERS ?= " \
-  ${TOPDIR}/../poky/meta \
-  ${TOPDIR}/../poky/meta-poky \
-  ${TOPDIR}/../poky/meta-yocto-bsp \
-  ${TOPDIR}/../meta-openembedded/meta-oe \
-"</code></pre>
-
+</code></pre>
     <div class="note">
       Layers must be added in the correct order. Use <code>bitbake-layers show-layers</code> to verify.
     </div>
@@ -415,49 +358,41 @@ INHERIT += "uninative"</code></pre>
   <section>
     <h2>🚀 Step 6: Build Your First Yocto Image</h2>
     <p>
-      Now that everything is configured, it’s time to build your image. We’ll build the <code>core-image-sato</code>, a simple graphical image with an X11 desktop.
+      Now that everything is configured, it’s time to build your image. We’ll build the <code>core-image-sato</code> a simple graphical image with an X11 desktop.
     </p>
-
     <h3>✅ Run BitBake</h3>
     <pre><code>bitbake core-image-sato</code></pre>
-
     <p>
       This process can take a few hours on the first build because Yocto downloads, compiles, and packages everything from scratch.
     </p>
-
     <div class="note">
       Subsequent builds will be faster due to caching.
     </div>
   </section>
-
   <section>
     <h2>🎮 Step 7: Run the Image in QEMU</h2>
     <p>
       After the build completes, you can launch your image with:
     </p>
     <pre><code>runqemu qemux86-64</code></pre>
-
     <p>This will start a QEMU window showing your Yocto-built Linux system booting up.</p>
-
     <h3>Troubleshooting Tips</h3>
     <ul>
       <li>If QEMU doesn’t launch, check that <code>libsdl2-dev</code> and X11 forwarding are properly configured.</li>
       <li>Ensure you have sufficient RAM allocated to WSL2 and QEMU.</li>
     </ul>
   </section>
-
   <section>
     <h2>✅ Step 8: Verify Your Build</h2>
     <p>
       Once the image boots, test basic functionality:
     </p>
     <ul>
-      <li>Login using default user (<code>root</code>)</li>
+      <li>Login using default user (<code>root</code></li>
       <li>Test network connectivity using <code>ping</code></li>
       <li>Explore available packages with <code>opkg</code> or <code>rpm</code> depending on package format</li>
-      <li>Check system logs (<code>dmesg</code>, <code>journalctl</code>)</li>
+      <li>Check system logs <code>dmesg</code> <code>journalctl</code></li>
     </ul>
-
     <div class="note">
       Remember, this is a fully customizable image — you can add/remove packages or enable extra features by modifying recipes and configurations.
     </div>
@@ -467,14 +402,12 @@ INHERIT += "uninative"</code></pre>
     <p>
       After successfully building and testing your Yocto image on QEMU, the natural next step is to deploy your custom Linux distribution to actual hardware, such as the Raspberry Pi.
     </p>
-
     <h3>Why Raspberry Pi?</h3>
     <ul>
       <li>Popular ARM-based platform for embedded development</li>
       <li>Strong community support with many Yocto-compatible layers</li>
       <li>Affordable and versatile for prototyping and production</li>
     </ul>
-
     <h3>Additional Layers and BSPs</h3>
     <p>
       Yocto uses Board Support Packages (BSPs) to support hardware-specific configurations. For Raspberry Pi, you will typically add layers such as:
@@ -483,473 +416,28 @@ INHERIT += "uninative"</code></pre>
       <li><code>meta-raspberrypi</code> — provides machine configurations and recipes</li>
       <li>Vendor-specific layers if you need custom drivers or features</li>
     </ul>
-
     <h3>Changes to Your Configuration</h3>
     <p>In <code>local.conf</code>, change the machine target:</p>
     <pre><code>MACHINE ?= "raspberrypi4"</code></pre>
-
     <p>Modify your <code>bblayers.conf</code> to include the Raspberry Pi layers:</p>
     <pre><code>BBLAYERS += " ${TOPDIR}/../meta-raspberrypi "</code></pre>
-
     <h3>Building and Flashing</h3>
     <ul>
       <li>Run <code>bitbake core-image-base</code> or a custom image tailored to Pi</li>
       <li>Use <code>dd</code> or specialized tools to write the generated SD card image</li>
       <li>Insert the SD card into the Raspberry Pi and boot</li>
     </ul>
-
     <div class="note">
       Raspberry Pi builds take longer than QEMU but provide real-world testing for hardware interfaces, peripherals, and performance.
     </div>
-
     <h3>Resources</h3>
     <ul>
-      <li><a href="https://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/" target="_blank">meta-raspberrypi Layer</a></li>
-      <li><a href="https://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html" target="_blank">Yocto Mega Manual</a></li>
+      <li><a href="https://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/" target="_blank" rel="noopener noreferrer">meta-raspberrypi Layer</a></li>
+      <li><a href="https://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html" target="_blank" rel="noopener noreferrer">Yocto Mega Manual</a></li>
     </ul>
   </section>
-
   <footer>
-    <p>© 2025 Your Project - Powered by Yocto and WSL2</p>
+    <p>© 2025 Jenuzwaraj | Built with ❤️</p>
   </footer>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Yocto Project with QEMU on WSL2 - Detailed Guide</title>
-<style>
-  /* Tetradic color scheme */
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #add8e6; /* Light Blue */
-    color: #3a3a3a;
-    margin: 0; padding: 0;
-  }
-  header, footer {
-    background-color: #e6bbad; /* Zinnwaldite */
-    color: #2f2f2f;
-    text-align: center;
-    padding: 1rem 2rem;
-  }
-  h1, h2 {
-    color: #6a4f4b; /* darkened Zinnwaldite */
-  }
-  h2 {
-    border-bottom: 3px solid #ade6bb; /* Chinook */
-    padding-bottom: 0.3rem;
-  }
-  section {
-    background-color: #f7f7f7;
-    margin: 1rem auto;
-    max-width: 900px;
-    padding: 1.5rem 2rem;
-    border-radius: 10px;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-  }
-  pre {
-    background-color: #e6add8; /* French Lilac */
-    padding: 1rem;
-    border-radius: 6px;
-    overflow-x: auto;
-    font-family: monospace;
-    font-size: 0.9rem;
-    color: #3a3a3a;
-  }
-  ul {
-    margin-left: 1.2rem;
-  }
-  li {
-    margin-bottom: 0.4rem;
-  }
-  .note {
-    background-color: #ade6bb; /* Chinook */
-    border-left: 5px solid #6a4f4b;
-    padding: 0.7rem 1rem;
-    margin: 1rem 0;
-    font-style: italic;
-  }
-  a {
-    color: #6a4f4b;
-    text-decoration: none;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-  footer p {
-    font-size: 0.9rem;
-  }
-</style>
-</head>
-<body>
-
-<header>
-  <h1>Yocto Project with QEMU on WSL2 - Detailed Guide</h1>
-  <p>Comprehensive walkthrough for building custom Linux images using Yocto, QEMU, and WSL2</p>
-</header>
-
-<section>
-  <h2>🔹 Introduction to Yocto and QEMU</h2>
-  <p>
-    This guide covers building a Yocto Project image running on QEMU emulator within a WSL2 Ubuntu environment. We’ll cover:
-  </p>
-  <ul>
-    <li>Understanding Yocto, Poky, and QEMU</li>
-    <li>Setting up the project directory and cloning essential layers</li>
-    <li>Installing dependencies on WSL2</li>
-    <li>Configuring build environment and Yocto configuration files</li>
-    <li>Building and running images on QEMU</li>
-    <li>Next steps: deploying on Raspberry Pi hardware</li>
-  </ul>
-  <div class="note">
-    Note: Yocto builds can be resource intensive — ensure you have adequate CPU, RAM, and disk space on your WSL2 instance.
-  </div>
-</section>
-
-<section>
-  <h2>🌍 What is the Yocto Project?</h2>
-  <p>
-    The <strong>Yocto Project</strong> is a powerful open-source framework designed for building custom Linux-based operating systems for embedded devices. 
-    Instead of using a prebuilt distro like Ubuntu or Debian, Yocto enables you to create your own distribution from scratch — including choosing the kernel, package manager, services, desktop environment (if needed), and target architecture.
-  </p>
-
-  <h3>Why Yocto?</h3>
-  <ul>
-    <li>Fully customizable Linux OS for embedded systems</li>
-    <li>Supports multiple CPU architectures (x86, ARM, MIPS, etc.)</li>
-    <li>Builds minimal, secure, and production-ready systems</li>
-    <li>Extensible via layers and metadata</li>
-    <li>Strong community and commercial backing</li>
-  </ul>
-
-  <div class="note">
-    Unlike general-purpose distros, Yocto is ideal for embedded applications such as IoT devices, drones, robots, automotive systems, routers, etc.
-  </div>
-</section>
-
-<section>
-  <h2>📦 What is Poky?</h2>
-  <p>
-    <strong>Poky</strong> is the <em>reference distribution</em> provided by the Yocto Project. It includes all the components needed to start building:
-  </p>
-  <ul>
-    <li><strong>BitBake</strong> - the build tool</li>
-    <li><strong>Metadata</strong> - recipes, classes, configuration files</li>
-    <li><strong>Base layers</strong> - meta, meta-poky, meta-yocto-bsp</li>
-  </ul>
-
-  <h3>Why use Poky?</h3>
-  <p>
-    Poky simplifies getting started with Yocto by bundling everything into a tested and validated set of layers and tools. Once you master Poky, you can branch out into more customized setups or use other vendor layers.
-  </p>
-</section>
-
-<section>
-  <h2>🧪 Why Use QEMU for Yocto Development?</h2>
-  <p>
-    <strong>QEMU</strong> (Quick Emulator) is a powerful, open-source machine emulator that lets you run entire operating systems virtually — no physical hardware needed.
-    Yocto includes support for several QEMU machines, like <code>qemux86</code>, <code>qemux86-64</code>, <code>qemuarm</code>, and <code>qemumips</code>.
-  </p>
-
-  <h3>Benefits of QEMU during development:</h3>
-  <ul>
-    <li>Test images before deploying to hardware</li>
-    <li>Faster feedback loops</li>
-    <li>No risk of bricking real devices</li>
-    <li>Automate testing and CI/CD pipelines</li>
-  </ul>
-
-  <div class="note">
-    In this guide, we’ll build a Yocto image for <code>qemux86-64</code>, test it using QEMU, and prepare to adapt the same build flow for real hardware like the Raspberry Pi.
-  </div>
-</section>
-
-<section>
-  <h2>📁 Step 1: Set Up the Yocto Project Directory</h2>
-  <p>
-    We’ll keep all our Yocto-related files under a parent directory called <code>~/yocto</code>. This makes it easier to organize your workspace.
-  </p>
-
-  <h3>✅ Create Base Directory</h3>
-  <pre><code>mkdir -p ~/yocto
-cd ~/yocto</code></pre>
-
-  <h3>✅ Clone the Poky Repository</h3>
-  <p>
-    Poky is the core of the Yocto Project. Let’s clone it from the official Git repository:
-  </p>
-  <pre><code>git clone git://git.yoctoproject.org/poky
-cd poky</code></pre>
-
-  <div class="note">
-    You can also check out a specific release tag (e.g., <code>git checkout kirkstone</code>) if you want a stable version.
-  </div>
-
-  <h3>✅ Clone Additional Useful Layers</h3>
-  <p>
-    Layers are modular building blocks in Yocto. Some useful ones include:
-  </p>
-  <pre><code>git clone git://git.yoctoproject.org/meta-openembedded</code></pre>
-
-  <h3>✅ Resulting Directory Tree</h3>
-  <p>After these steps, your Yocto project structure will look like this:</p>
-
-  <pre><code>~/yocto/
-├── poky/
-│   ├── bitbake/          # Build tool
-│   ├── meta/             # Core metadata
-│   ├── meta-poky/        # Poky distribution config
-│   ├── meta-yocto-bsp/   # Board Support Packages
-│   └── ...
-├── meta-openembedded/    # Community-contributed layers
-└── build/                # Created after environment init
-</code></pre>
-
-  <div class="note">
-    Each layer can provide recipes, classes, configuration files, and machine-specific support.
-  </div>
-</section>
-
-<section>
-  <h2>🔧 Step 2: Install Required Packages (WSL2 - Ubuntu)</h2>
-  <p>
-    Since Yocto relies on a number of build and development tools, we’ll need to install these dependencies on your WSL2 Ubuntu environment.
-  </p>
-
-  <h3>✅ Update and Install Packages</h3>
-  <pre><code>sudo apt update
-sudo apt install -y gawk wget git-core diffstat unzip texinfo gcc \
-build-essential chrpath socat cpio python3 python3-pip python3-pexpect \
-xz-utils debianutils iputils-ping libsdl1.2-dev xterm</code></pre>
-
-  <h3>✅ Optional but Recommended</h3>
-  <pre><code>sudo apt install libsdl2-dev</code></pre>
-  <p>This enables graphical support in QEMU.</p>
-
-  <h3>Why These Packages?</h3>
-  <ul>
-    <li><code>gawk</code>, <code>wget</code>, <code>unzip</code> — scripting & downloads</li>
-    <li><code>gcc</code>, <code>build-essential</code> — compiling code</li>
-    <li><code>chrpath</code>, <code>socat</code>, <code>cpio</code> — used in various Yocto recipes</li>
-    <li><code>python3*</code> — Yocto uses Python 3 for configuration and build tools</li>
-  </ul>
-
-  <div class="note">
-    Some components of Yocto (like BitBake) are sensitive to missing system libraries. Always ensure your build system is fully updated.
-  </div>
-</section>
-
-<section>
-  <h2>⚠️ WSL2 Compatibility Notes</h2>
-  <p>
-    While not officially supported by the Yocto Project, <strong>WSL2</strong> works well for building QEMU images with a few caveats:
-  </p>
-  <ul>
-    <li>No systemd or full init support (some host sanity checks may fail)</li>
-    <li>No hardware emulation (use QEMU only in software mode)</li>
-    <li>Ensure your distro has enough RAM & CPU (allocate via WSL2 <code>.wslconfig</code>)</li>
-  </ul>
-
-  <h3>Example <code>.wslconfig</code> for Performance</h3>
-  <p>Create <code>C:\Users\YourName\.wslconfig</code> in Windows with:</p>
-  <pre><code>[wsl2]
-memory=8GB
-processors=4</code></pre>
-
-  <div class="note">
-    After editing <code>.wslconfig</code>, restart WSL2 using <code>wsl --shutdown</code> in PowerShell or CMD.
-  </div>
-</section>
-
-<section>
-  <h2>⚙️ Step 3: Initialize the Yocto Build Environment</h2
-<p>
-    After cloning Poky and installing dependencies, we now set up the build environment. This creates the working directory where all image builds, temporary files, and configuration will reside.
-  </p>
-
-  <h3>✅ Initialize Build Directory</h3>
-  <p>From the <code>poky/</code> directory, run:</p>
-  <pre><code>cd ~/yocto/poky
-source oe-init-build-env build</code></pre>
-
-  <p>This command does two things:</p>
-  <ul>
-    <li>Creates a new directory called <code>build/</code></li>
-    <li>Switches you into it and sets up environment variables</li>
-  </ul>
-
-  <div class="note">
-    You'll need to run <code>source oe-init-build-env build</code> in every new terminal session to re-enter the Yocto environment.
-  </div>
-</section>
-
-<section>
-  <h2>📝 Step 4: Configure Your Build (local.conf)</h2>
-  <p>
-    The <code>conf/local.conf</code> file is where you set the target machine, distro type, package format, and build behavior.
-  </p>
-
-  <h3>✅ Edit <code>local.conf</code></h3>
-  <pre><code>nano conf/local.conf</code></pre>
-
-  <p>Make the following edits:</p>
-  <pre><code># Target QEMU machine
-MACHINE ?= "qemux86-64"
-
-# Use Poky distro
-DISTRO ?= "poky"
-
-# Use RPM as package format (can also use ipk or deb)
-PACKAGE_CLASSES ?= "package_rpm"
-
-# Enable useful debugging features
-EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-dropbear"
-
-# Improve performance based on your system
-BB_NUMBER_THREADS = "4"
-PARALLEL_MAKE = "-j4"
-
-# Disable host OS checks in WSL2
-INHERIT += "uninative"</code></pre>
-
-  <h3>Explanation of Key Options:</h3>
-  <ul>
-    <li><strong>MACHINE</strong>: Sets the target architecture (QEMU 64-bit in this case)</li>
-    <li><strong>EXTRA_IMAGE_FEATURES</strong>: Adds SSH and debugging features to the rootfs</li>
-    <li><strong>PARALLEL_MAKE</strong>: Uses all CPU cores for faster builds</li>
-  </ul>
-
-  <div class="note">
-    Tip: You can also set <code>DL_DIR</code> and <code>SSTATE_DIR</code> to share downloads across projects.
-  </div>
-</section>
-
-<section>
-  <h2>🧱 Step 5: Configure Active Layers (bblayers.conf)</h2>
-  <p>
-    The <code>bblayers.conf</code> file controls which layers Yocto will use during the build.
-    By default, it includes <code>meta</code>, <code>meta-poky</code>, and <code>meta-yocto-bsp</code>.
-  </p>
-
-  <h3>✅ Edit <code>bblayers.conf</code></h3>
-  <pre><code>nano conf/bblayers.conf</code></pre>
-
-  <p>Add meta-openembedded if you cloned it earlier:</p>
-  <pre><code>BBLAYERS ?= " \
-  ${TOPDIR}/../poky/meta \
-  ${TOPDIR}/../poky/meta-poky \
-  ${TOPDIR}/../poky/meta-yocto-bsp \
-  ${TOPDIR}/../meta-openembedded/meta-oe \
-"</code></pre>
-
-  <div class="note">
-    Layers must be added in the correct order. Use <code>bitbake-layers show-layers</code> to verify.
-  </div>
-</section>
-
-<section>
-  <h2>🚀 Step 6: Build Your First Yocto Image</h2>
-  <p>
-    Now that everything is configured, it’s time to build your image. We’ll build the <code>core-image-sato</code>, a simple graphical image with an X11 desktop.
-  </p>
-
-  <h3>✅ Run BitBake</h3>
-  <pre><code>bitbake core-image-sato</code></pre>
-
-  <p>
-    This process can take a few hours on the first build because Yocto downloads, compiles, and packages everything from scratch.
-  </p>
-
-  <div class="note">
-    Subsequent builds will be faster due to caching.
-  </div>
-</section>
-
-<section>
-  <h2>🎮 Step 7: Run the Image in QEMU</h2>
-  <p>
-    After the build completes, you can launch your image with:
-  </p>
-  <pre><code>runqemu qemux86-64</code></pre>
-
-  <p>This will start a QEMU window showing your Yocto-built Linux system booting up.</p>
-
-  <h3>Troubleshooting Tips</h3>
-  <ul>
-    <li>If QEMU doesn’t launch, check that <code>libsdl2-dev</code> and X11 forwarding are properly configured.</li>
-    <li>Ensure you have sufficient RAM allocated to WSL2 and QEMU.</li>
-  </ul>
-</section>
-
-<section>
-  <h2>✅ Step 8: Verify Your Build</h2>
-  <p>
-    Once the image boots, test basic functionality:
-  </p>
-  <ul>
-    <li>Login using default user (<code>root</code>)</li>
-    <li>Test network connectivity using <code>ping</code></li>
-    <li>Explore available packages with <code>opkg</code> or <code>rpm</code> depending on package format</li>
-    <li>Check system logs (<code>dmesg</code>, <code>journalctl</code>)</li>
-  </ul>
-
-  <div class="note">
-    Remember, this is a fully customizable image — you can add/remove packages or enable extra features by modifying recipes and configurations.
-  </div>
-</section>
-
-<section>
-  <h2>🔌 Step 9: From QEMU to Real Hardware — Raspberry Pi</h2>
-  <p>
-    After successfully building and testing your Yocto image on QEMU, the natural next step is to deploy your custom Linux distribution to actual hardware, such as the Raspberry Pi.
-  </p>
-
-  <h3>Why Raspberry Pi?</h3>
-  <ul>
-    <li>Popular ARM-based platform for embedded development</li>
-    <li>Strong community support with many Yocto-compatible layers</li>
-    <li>Affordable and versatile for prototyping and production</li>
-  </ul>
-
-  <h3>Additional Layers and BSPs</h3>
-  <p>
-    Yocto uses Board Support Packages (BSPs) to support hardware-specific configurations. For Raspberry Pi, you will typically add layers such as:
-  </p>
-  <ul>
-    <li><code>meta-raspberrypi</code> — provides machine configurations and recipes</li>
-    <li>Vendor-specific layers if you need custom drivers or features</li>
-  </ul>
-
-  <h3>Changes to Your Configuration</h3>
-  <p>In <code>local.conf</code>, change the machine target:</p>
-  <pre><code>MACHINE ?= "raspberrypi4"</code></pre>
-
-  <p>Modify your <code>bblayers.conf</code> to include the Raspberry Pi layers:</p>
-  <pre><code>BBLAYERS += " ${TOPDIR}/../meta-raspberrypi "</code></pre>
-
-  <h3>Building and Flashing</h3>
-  <ul>
-    <li>Run <code>bitbake core-image-base</code> or a custom image tailored to Pi</li>
-    <li>Use <code>dd</code> or specialized tools to write the generated SD card image</li>
-    <li>Insert the SD card into the Raspberry Pi and boot</li>
-  </ul>
-
-  <div class="note">
-    Raspberry Pi builds take longer than QEMU but provide real-world testing for hardware interfaces, peripherals, and performance.
-  </div>
-
-  <h3>Resources</h3>
-  <ul>
-    <li><a href="https://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/" target="_blank" rel="noopener noreferrer">meta-raspberrypi Layer</a></li>
-    <li><a href="https://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html" target="_blank" rel="noopener noreferrer">Yocto Mega Manual</a></li>
-  </ul>
-</section>
-
-<footer>
-  <p>© 2025 Jenuzwaraj | Built with ❤️ </p>
-</footer>
-
 </body>
 </html>
