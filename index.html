@@ -3,161 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jenuzwaraj Embedded Blog</title>
-  <!-- Google Fonts for a modern look -->
+  <title>JenBits - Bite-sized insights in Embedded Systems & IoT</title>
+  
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      font-family: 'Roboto', Arial, sans-serif;
-      background: #f6f8fa;
-      margin: 0;
-      color: #222;
-    }
-    header {
-      background: linear-gradient(90deg, #293462 0%, #1cd6ce 100%);
-      color: #fff;
-      text-align: center;
-      padding: 3rem 1rem 2rem 1rem;
-      box-shadow: 0 2px 6px rgba(44,62,80,.08);
-    }
-    header h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2.5rem;
-      margin-bottom: .5rem;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(44,62,80,.06);
-      position: sticky;
-      top: 0;
-      z-index: 99;
-    }
-    nav a {
-      color: #293462;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 1rem 0;
-      transition: color .2s;
-      position: relative;
-    }
-    nav a:hover, nav a:focus {
-      color: #1cd6ce;
-      border-bottom: 2px solid #1cd6ce;
-    }
-    .container {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-    .blog-card {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(44,62,80,.08);
-      padding: 1.5rem;
-      transition: box-shadow .2s;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      min-height: 220px;
-      position: relative;
-    }
-    .blog-card:hover {
-      box-shadow: 0 8px 24px rgba(44,62,80,.12);
-    }
-    .blog-card img {
-      width: 100%;
-      max-height: 120px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      background: #eee;
-    }
-    .blog-card h3 {
-      margin: 0 0 .5rem 0;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.2rem;
-      color: #293462;
-    }
-    .blog-card small {
-      color: #888;
-      margin-bottom: 1rem;
-    }
-    .blog-card p {
-      flex: 1;
-      margin-bottom: 1rem;
-    }
-    .blog-card a {
-      color: #1cd6ce;
-      font-weight: 500;
-      text-decoration: none;
-      transition: color .2s;
-    }
-    .blog-card a:hover {
-      color: #293462;
-    }
-    .about {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(44,62,80,.08);
-      padding: 2rem;
-      margin-bottom: 3rem;
-    }
-    .about h2 {
-      font-family: 'Montserrat', sans-serif;
-      color: #293462;
-      margin-top: 0;
-    }
-    .about ul {
-      margin: 1rem 0;
-      padding-left: 1.5rem;
-    }
-    .about li {
-      margin-bottom: .5rem;
-    }
-    footer {
-      background: #293462;
-      color: #fff;
-      text-align: center;
-      padding: 2rem 1rem 1rem 1rem;
-      font-size: 1rem;
-      margin-top: 4rem;
-    }
-    .social-links {
-      margin: 1rem 0 0 0;
-    }
-    .social-links a {
-      color: #1cd6ce;
-      margin: 0 .5rem;
-      font-size: 1.5rem;
-      text-decoration: none;
-      transition: color .2s;
-    }
-    .social-links a:hover {
-      color: #fff;
-    }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.5rem; }
-      .container { padding: 0 .5rem; }
-      .about, .blog-card { padding: 1rem; }
-    }
-  </style>
 </head>
 <body>
 
 <!-- HEADER -->
 <header id="home">
-  <h1>Jenuzwaraj Embedded Blog</h1>
-  <p>Projects • Tutorials • IoT • Linux</p>
+  <h1>JenBits</h1>
+  <p>Bite-sized insights in Embedded Systems & IoT</p>
 </header>
 
 <!-- NAVIGATION -->
@@ -165,10 +24,12 @@
   <a href="#home">Home</a>
   <a href="#blog">Blog</a>
   <a href="#about">About</a>
+  <a href="#contact">Contact</a>
 </nav>
 
 <!-- MAIN CONTENT -->
 <div class="container">
+
   <!-- BLOG SECTION -->
   <h2 id="blog">📝 Latest Blog Posts</h2>
   <div class="blog-grid">
@@ -188,7 +49,7 @@
       <p>Details coming soon…</p>
       <a href="#">Read more →</a>
     </div>
-    <!-- Blog 3 -->
+        <!-- Blog 3  -->
     <div class="blog-card">
       <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Coming Soon" />
       <h3>Coming Soon</h3>
@@ -196,7 +57,7 @@
       <p>Details coming soon…</p>
       <a href="#">Read more →</a>
     </div>
-    <!-- Blog 4 -->
+    <!-- Blog 4. -->
     <div class="blog-card">
       <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Coming Soon" />
       <h3>Coming Soon</h3>
@@ -212,7 +73,6 @@
     <p>I'm <strong>Jenuzwaraj</strong>, an Embedded & IoT Engineer with a deep passion for building real-time systems, optimizing performance, and solving complex hardware-software integration challenges.</p>
     <p>With hands-on experience in microcontroller programming, embedded Linux (Yocto, Buildroot), and industrial IoT systems, I enjoy turning raw boards into production-ready smart devices. My journey began with bare-metal coding and has since evolved into architecting scalable embedded solutions for smart factories and connected products.</p>
     <p>This blog is my public lab notebook — sharing real projects, personal experiments, tutorials, and open source ideas. Whether you're a beginner trying to set up your first Linux build or a fellow engineer pushing the limits of embedded hardware, you'll find something here.</p>
-    <p><strong>📌 What to Expect from This Blog</strong></p>
     <ul>
       <li>Step-by-step guides on embedded Linux development</li>
       <li>IoT project builds with schematics and source code</li>
@@ -220,19 +80,45 @@
       <li>Open-source tools and custom driver tutorials</li>
       <li>Behind-the-scenes notes from actual engineering work</li>
     </ul>
-    <p>If you're someone who loves building from the bare metal up — welcome aboard. Let's tinker, break, and learn together.</p>
   </div>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="contact">
+    <h2>📬 Get in Touch</h2>
+    <p>I'd love to hear from you! Fill out the form below and I'll get back to you soon.</p>
+
+    <form class="contact-form" action="https://formspree.io/f/xzzjdovn" method="POST">
+      <label class="sr-only" for="cname">Name</label>
+      <input id="cname" name="name" type="text" placeholder="Your name" required>
+
+      <label class="sr-only" for="cemail">Email</label>
+      <input id="cemail" name="email" type="email" placeholder="Your email" required>
+
+      <label class="sr-only" for="cmsg">Message</label>
+      <textarea id="cmsg" name="message" rows="5" placeholder="Your message…" required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
 </div>
 
 <!-- FOOTER -->
 <footer>
-  © 2025 Jenuzwaraj. All rights reserved.
-  <div class="social-links">
-    <a href="https://github.com/Jenuzwaraj" target="_blank" title="GitHub"><span>&#x1F5C3;</span></a>
-    <a href="mailto:jenuzwaraj@gmail.com" title="Email"><span>&#x2709;</span></a>
-    <!-- Add more social icons as needed -->
+  <div class="footer-icons">
+    <a href="mailto:jenuzwaraj@gmail.com" target="_blank" aria-label="Email">
+      <i class="fas fa-envelope"></i>
+    </a>
+    <a href="https://www.instagram.com/jenu_zwaraj?igsh=NGJhNXF3OWdtajU0" target="_blank" aria-label="Instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href=" https://www.linkedin.com/in/jenu-swaraj-3ab8b7284 " target="_blank" aria-label="LinkedIn">
+      <i class="fab fa-linkedin"></i>
+    </a>
   </div>
+  <p>© 2025 All rights reserved.</p>
 </footer>
+
 
 </body>
 </html>
