@@ -76,12 +76,31 @@ nav a:hover, nav a:focus { color: #1cd6ce; border-bottom: 2px solid #1cd6ce; }
 .contact-form button:hover { background: #17b8b0; transform: translateY(-1px); }
 
 /* Footer */
-footer { background: #293462; color: #fff; text-align: center; padding: 2rem 1rem 1rem 1rem; margin-top: 4rem; }
-.footer-contact { text-align: center; margin-bottom: 1rem; }
-.footer-contact h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: #fff; }
-.footer-icons { display: flex; justify-content: center; gap: 1.5rem; }
-.footer-icons a { font-size: 1.8rem; color: #1cd6ce; transition: transform 0.2s, color 0.2s; }
-.footer-icons a:hover { color: #17b8b0; transform: scale(1.1); }
+footer {
+  background: #293462;
+  color: #fff;
+  text-align: center;
+  padding: 2rem 1rem 1rem 1rem;
+  margin-top: 4rem;
+}
+
+.footer-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.footer-icons a {
+  font-size: 1.8rem;
+  color: #1cd6ce;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.footer-icons a:hover {
+  color: #17b8b0;
+  transform: scale(1.1);
+}
 
 /* Responsive */
 @media (max-width: 600px) {
