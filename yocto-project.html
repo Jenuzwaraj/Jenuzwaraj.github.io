@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Building Yocto Linux on WSL2 — A Complete Guide with QEMU</title>
+  <link rel="stylesheet" href="theme.css">
   <style>
     /* JenBits Docs theme — light-blue / teal, system fonts, card layout */
     :root{
@@ -117,6 +118,7 @@
 </head>
 <body>
   <header>
+    <button id="themeToggle" onclick="toggleTheme()">🌙</button>
     <h1>Building Yocto Linux on WSL2 — A Complete Guide with QEMU</h1>
     <p>Learn how to build custom Yocto-based Linux images inside WSL2 and validate them using QEMU before moving to real hardware.</p>
   </header>
@@ -359,5 +361,7 @@ runqemu qemux86-64</code></pre>
   </main>
 
   <footer>© 2025 All Rights Reserved</footer>
+  <script src="theme-toggle.js"></script>
+
 </body>
 </html>
