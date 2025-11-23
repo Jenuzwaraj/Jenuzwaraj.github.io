@@ -1,3 +1,105 @@
+
+/* Hamburger Button */
+.hamburger {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    background: var(--card);
+    color: var(--text);
+    border: 2px solid var(--teal);
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px var(--shadow);
+}
+
+/* Side Menu */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 300px;
+    height: 100%;
+    background: var(--card);
+    color: var(--text);
+    box-shadow: -4px 0 16px rgba(0,0,0,0.25);
+    padding: 30px 24px;
+    transition: 0.35s ease;
+    z-index: 1500;
+    overflow-y: auto;
+}
+
+.side-menu.open {
+    right: 0;
+}
+
+.side-menu a {
+    display: block;
+    padding: 10px 0;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.side-menu a:hover {
+    color: var(--teal);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 36px;
+    float: right;
+    cursor: pointer;
+}
+
+/* Section Titles */
+.side-menu h2 {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    color: var(--navy);
+}
+
+.side-menu h3 {
+    margin-top: 24px;
+    color: var(--text-muted);
+}
+
+/* Social Icons */
+.menu-social a {
+    font-size: 1.4rem;
+    margin-right: 16px;
+    color: var(--text);
+}
+
+.menu-social a:hover {
+    color: var(--teal);
+}
+
+/* Theme Toggle inside menu */
+.theme-toggle-area {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.theme-toggle {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--teal);
+    color: #003c47;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
 /* Base styles */
 body {
   font-family: 'Roboto', Arial, sans-serif;
