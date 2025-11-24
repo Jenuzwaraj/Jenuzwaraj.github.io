@@ -75,21 +75,21 @@
     .hamburger[aria-expanded="true"] span:nth-child(2){ opacity:0; }
     .hamburger[aria-expanded="true"] span:nth-child(3){ transform: translateY(-8px) rotate(-45deg); }
 
-    /* Side menu (right) */
     .side-menu{
-      position:fixed;
-      top:0;
-      right:-100%;
-      width:320px;
-      max-width:80%;
-      height:100%;
-      background:var(--card);
-      padding:28px 20px;
-      box-shadow:-3px 0 24px var(--shadow);
-      transition:right .35s ease-in-out;
-      z-index:1000;
-      overflow:auto;
-    }
+  position:fixed;
+  top:0;
+  right:-100%;
+  width:320px;
+  max-width:80%;
+  height:100vh;           /* full viewport */
+  background:var(--card);
+  padding:28px 20px 40px; /* added bottom padding */
+  box-shadow:-3px 0 24px var(--shadow);
+  transition:right .35s ease-in-out;
+  z-index:1000;
+  overflow-y:auto;        /* FIX: scrolling enabled */
+}
+
     .side-menu.open{ right:0; }
     .side-menu h3{ margin:0 0 12px 0; color:var(--navy); font-size:1.05rem; }
     .side-menu a{
