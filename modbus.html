@@ -259,18 +259,214 @@
 
   </nav>
 
+  <!-- Main content (full tutorial) -->
   <main>
-
-    <!-- Your existing content remains unchanged -->
-
     <section class="card" id="overview">
       <h2>Overview</h2>
-      <p>Modbus is a simple application-layer messaging protocol...</p>
+      <p>Modbus is a simple application-layer messaging protocol originally designed for communication between PLCs and field devices. It defines how messages are structured and exchanged; it does not mandate a transport, which is why Modbus can run over serial (RTU/ASCII) and Ethernet (TCP).</p>
+      <p>This guide is written as a reference you can rely on while building, debugging, or documenting Modbus-based systems.</p>
     </section>
 
-    <!-- All other sections remain exactly the same as your previous file -->
-    <!-- (I did not remove or edit your content.) -->
+    <section class="card" id="origins">
+      <h2>Origins & Why It Matters</h2>
+      <p>Designed for industrial control, Modbus became popular because it is:</p>
+      <ul>
+        <li>Open and simple — easy to implement on microcontrollers and PLCs.</li>
+        <li>Interoperable — many vendors implemented it, reducing integration effort.</li>
+        <li>Flexible — works across different physical layers and network types.</li>
+      </ul>
+      <p>Because of these properties Modbus is still widely used in factory automation, building management, energy metering, and gateway devices in IIoT architectures.</p>
+    </section>
 
+    <section class="card" id="communication">
+      <h2>Communication Model</h2>
+      <p>Modbus uses a <strong>request–response</strong> model: a master (client) sends requests; slaves (servers) reply. Classic RTU/ASCII slaves cannot initiate communication — the master must poll them. Modbus TCP uses client/server terminology but follows the same principle.</p>
+      <p>Key operational rules:</p>
+      <ul>
+        <li>Only one master should control a serial bus to avoid collisions. On Ethernet you can have multiple clients connecting to a server, but typical SCADA setups centralize polling.</li>
+        <li>Slaves are identified by a <strong>Unit ID</strong> (slave address) — low numbers are for devices, 0 often reserved for broadcast on RTU/ASCII.</li>
+        <li>Timing matters on serial RTU — silent intervals (3.5 char times) delimit frames.</li>
+      </ul>
+    </section>
+
+    <section class="card" id="physical">
+      <h2>Physical & Link Layers (Practical Notes)</h2>
+      <p>Common transports:</p>
+      <ul>
+        <li><strong>RS-485</strong> — differential pair, multi-drop capable, robust for industrial distances and noise. Usually half-duplex on a single pair.</li>
+        <li><strong>RS-232</strong> — point-to-point (less common for multi-drop).</li>
+        <li><strong>Ethernet (TCP/IP)</strong> — Modbus TCP runs over standard IP networks, convenient for gateways and SCADA.</li>
+      </ul>
+      <p>Practical wiring tips (RS-485): use a daisy-chain topology, termination resistors (typically 120Ω) at both ends, and biasing resistors to define idle state. Avoid star topologies and long unterminated stubs.</p>
+    </section>
+
+    <section class="card" id="variants">
+      <h2>Variants — RTU, ASCII, TCP</h2>
+      <h3>Modbus RTU</h3>
+      <p>Binary encoding; compact frames; CRC-16 for integrity. Widely used in field devices where bandwidth is limited.</p>
+      <h3>Modbus ASCII</h3>
+      <p>Each byte encoded as two ASCII characters. Easier to debug with terminals but less efficient. Uses LRC for integrity.</p>
+      <h3>Modbus TCP</h3>
+      <p>Runs Modbus PDUs inside TCP packets. Adds a 7-byte MBAP header (Transaction ID, Protocol ID, Length, Unit ID). TCP provides error detection and reassembly, so CRC/LRC are omitted.</p>
+    </section>
+
+    <section class="card" id="data">
+      <h2>Data Model — Coils & Registers</h2>
+      <p>Modbus presents four logical data areas that devices expose:</p>
+      <ul>
+        <li><strong>Coils (0xxxx)</strong> — discrete read/write bits (outputs).</li>
+        <li><strong>Discrete Inputs (1xxxx)</strong> — discrete read-only bits (inputs).</li>
+        <li><strong>Input Registers (3xxxx)</strong> — read-only 16-bit words (sensor values).</li>
+        <li><strong>Holding Registers (4xxxx)</strong> — read/write 16-bit words (setpoints, configs).</li>
+      </ul>
+      <p>Devices and vendor docs often present human-friendly 1-based addresses (e.g., 40001). Protocol requests use zero-based offsets. Always document mapping and scale factors (e.g., value/10 for temperature).</p>
+    </section>
+
+    <section class="card" id="function-codes">
+      <h2>Function Codes — What You Need to Know</h2>
+      <p>Function codes (one byte) tell the slave what operation to perform. The most-used codes are below.</p>
+      <table>
+        <thead><tr><th>Code</th><th>Name</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>01 (0x01)</td><td>Read Coils</td><td>Read status of coils (bits)</td></tr>
+          <tr><td>02 (0x02)</td><td>Read Discrete Inputs</td><td>Read discrete input bits</td></tr>
+          <tr><td>03 (0x03)</td><td>Read Holding Registers</td><td>Read block of 16-bit registers</td></tr>
+          <tr><td>04 (0x04)</td><td>Read Input Registers</td><td>Read input registers (read-only)</td></tr>
+          <tr><td>05 (0x05)</td><td>Write Single Coil</td><td>Write a single output bit</td></tr>
+          <tr><td>06 (0x06)</td><td>Write Single Register</td><td>Write a single 16-bit register</td></tr>
+          <tr><td>15 (0x0F)</td><td>Write Multiple Coils</td><td>Write multiple bits</td></tr>
+          <tr><td>16 (0x10)</td><td>Write Multiple Registers</td><td>Write multiple 16-bit registers</td></tr>
+        </tbody>
+      </table>
+      <p>There are additional function codes for file record access, diagnostics, masks, and more; consult the official Modbus Application Protocol documentation for edge cases.</p>
+    </section>
+
+    <section class="card" id="frames">
+      <h2>Frame Formats — Byte-Level Examples</h2>
+      <h3>RTU frame (serial)</h3>
+      <p>Structure: <kbd>Slave ID (1)</kbd> + <kbd>Function (1)</kbd> + <kbd>Data (N)</kbd> + <kbd>CRC (2)</kbd></p>
+      <pre><code>Example (hex): 03 03 00 64 00 02 85 C9
+// Slave 3, Function 3 (read holding), start 0x0064 (100), qty 2, CRC=85C9</code></pre>
+
+      <h3>ASCII frame</h3>
+      <pre><code>Example: :030300640002A5&lt;CR&gt;&lt;LF&gt;  (LRC used)</code></pre>
+
+      <h3>Modbus TCP (MBAP + PDU)</h3>
+      <pre><code>MBAP: [TransID(2)][ProtID(2)=0][Length(2)][UnitID(1)]
+PDU: [Function][Data...]
+
+Example (hex): 00 01 00 00 00 06 03 03 00 64 00 02</code></pre>
+      <div class="note">MBAP Transaction ID lets a TCP client send multiple outstanding requests; responses are correlated via that ID.</div>
+    </section>
+
+    <section class="card" id="crc">
+      <h2>CRC-16 and LRC — Integrity Checks</h2>
+      <h3>CRC-16 (RTU)</h3>
+      <p>RTU uses CRC-16 (polynomial 0xA001). The CRC covers address, function, and data fields and is appended low byte first. Use tested library routines or lookup-table implementations for speed and correctness.</p>
+      <pre><code>// Simplified CRC pseudocode
+uint16_t crc = 0xFFFF;
+for each byte b in message:
+  crc ^= b;
+  for i from 0..7:
+    if crc & 0x0001:
+      crc = (crc >> 1) ^ 0xA001;
+    else:
+      crc >>= 1;
+append CRC low, CRC high</code></pre>
+
+      <h3>LRC (ASCII)</h3>
+      <p>ASCII frames use an LRC (one byte), which is the two's complement of the sum of data bytes. Again, use library functions.</p>
+    </section>
+
+    <section class="card" id="exceptions">
+      <h2>Exception Responses</h2>
+      <p>If a slave cannot fulfill a request it responds with the function code ORed with 0x80 and an exception code byte.</p>
+      <table>
+        <thead><tr><th>Code</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>01</td><td>Illegal Function</td></tr>
+          <tr><td>02</td><td>Illegal Data Address</td></tr>
+          <tr><td>03</td><td>Illegal Data Value</td></tr>
+          <tr><td>04</td><td>Slave Device Failure</td></tr>
+          <tr><td>05</td><td>Acknowledge (long op)</td></tr>
+          <tr><td>06</td><td>Slave Device Busy</td></tr>
+          <tr><td>0A (10)</td><td>Gateway Path Unavailable</td></tr>
+        </tbody>
+      </table>
+      <p>On receiving exceptions the master should log them and implement retry/backoff; persistent exceptions require investigation of device configuration, addressing, and register mapping.</p>
+    </section>
+
+    <section class="card" id="addressing">
+      <h2>Addressing & Register Mapping — Practical Advice</h2>
+      <p>Common pitfalls: off-by-one addressing, scale/endianness confusion, and undocumented register conventions. Always provide a clear register map in device documentation with:</p>
+      <ul>
+        <li>Register number (human-friendly), protocol offset (zero-based)</li>
+        <li>Data type (uint16, int16, uint32, float32)</li>
+        <li>Scale factor and units (e.g., value/10 == °C)</li>
+        <li>Read/Write permissions and valid ranges</li>
+      </ul>
+      <pre><code>Example device map:
+40001 (offset 0) : Holding Reg : Temperature setpoint : int16 : value/10 -> °C
+40002 (offset 1) : Holding Reg : Control mode (0:auto,1:manual) : uint16</code></pre>
+    </section>
+
+    <section class="card" id="implementation">
+      <h2>Implementing Master & Slave — Patterns</h2>
+      <p>Use stable libraries wherever possible. High-level implementation notes:</p>
+      <ul>
+        <li>Master: construct request, send, wait for response (timeout), validate CRC/MBAP, parse data, handle exceptions.</li>
+        <li>Slave: listen for frames, validate CRC/Unit ID, execute function, return response or exception (or ignore frames not for your Unit ID).</li>
+        <li>RS-485 transceivers: manage driver-enable (DE) and receiver-enable (RE) pins to avoid bus contention; only drive the bus when transmitting.</li>
+      </ul>
+      <pre><code>// Master pseudocode
+send_frame(request);
+if receive(response, timeout):
+  if valid_crc(response):
+    if response.is_exception():
+      handle_exception();
+    else:
+      process(response);
+  else:
+    log_crc_error();
+else:
+  handle_timeout();</code></pre>
+    </section>
+
+    <section class="card" id="testing">
+      <h2>Testing & Debugging</h2>
+      <ul>
+        <li>Use a USB↔RS485 adapter and a terminal/sniffer to capture RTU frames for debugging.</li>
+        <li>Tools: Modbus Poll, QModMaster, Modbus Doctor for Windows; Wireshark for Modbus TCP analysis.</li>
+        <li>Compare raw hex frames from a known-working device to your device to spot differences in addressing, byte order, or CRC.</li>
+      </ul>
+      <div class="note">If your device replies with malformed frames, check baud/parity/stop settings first — mismatched serial parameters are the most common cause of CRC errors.</div>
+    </section>
+
+    <section class="card" id="security">
+      <h2>Security Considerations</h2>
+      <p>Modbus (RTU/ASCII/TCP) provides no native encryption or authentication. For production systems adopt layered defenses:</p>
+      <ul>
+        <li>Network segmentation (VLANs) and firewalls to restrict access to control networks.</li>
+        <li>Use secure gateways that authenticate clients and translate to internal Modbus networks.</li>
+        <li>Prefer encrypted transports (MQTT+TLS, OPC-UA) for cloud integrations; keep Modbus inside trusted perimeter and monitor logs.</li>
+      </ul>
+    </section>
+
+    <section class="card" id="checklist">
+      <h2>Best Practices Checklist</h2>
+      <ul>
+        <li>Create and publish a clear register map for every device.</li>
+        <li>Reserve unique slave IDs and avoid collisions.</li>
+        <li>Use termination and biasing on RS-485; prefer daisy-chain wiring.</li>
+        <li>Implement conservative timeouts, retries, and logging of exceptions & CRC failures.</li>
+        <li>Use tested libraries and do not roll your own CRC unless necessary.</li>
+      </ul>
+    </section>
+
+    <section class="card" id="conclusion">
+      <h2>Conclusion</h2>
+      <p>Modbus remains one of the most enduring and practical communication protocols in industrial automation. Its simplicity, wide adoption, and hardware independence have made it a foundational standard for decades. From its early RS-485 serial roots to modern Modbus TCP implementations, it continues to provide a reliable bridge between sensors, controllers, and SCADA systems. Whether you're designing embedded firmware or integrating legacy systems, understanding Modbus deeply equips you to build robust, interoperable, and scalable industrial solutions.</p>
+    </section>
   </main>
 
   <footer>© 2025 All Rights Reserved</footer>
