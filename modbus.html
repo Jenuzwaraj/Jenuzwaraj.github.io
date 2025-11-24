@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Modbus Protocol — Complete Tutorial & Reference</title>
 
   <style>
@@ -27,6 +27,8 @@
       font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
       background:linear-gradient(180deg,var(--bg1),var(--bg2));
       color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
     /* HEADER */
@@ -44,68 +46,77 @@
       color:var(--header-text);
     }
 
-    /* HAMBURGER */
-    .hamburger{
+    /* HAMBURGER - larger tap area for mobile */
+    .hamburger {
       position:absolute;
-      right:20px;
-      bottom:18px;
+      right:14px;
+      bottom:14px;
+      width:44px;           /* larger area for touch */
+      height:44px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      z-index:1200;
+      background:transparent;
+      border-radius:8px;
+    }
+    .hamburger-inner{
       width:28px;
       height:22px;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
-      cursor:pointer;
-      z-index:1100;
-      padding:4px;
+      padding:4px 0;
+      box-sizing:border-box;
     }
-    .hamburger span{
+    .hamburger-inner span{
+      display:block;
       height:3px;
       background:var(--header-text);
       border-radius:4px;
-      transition:transform .25s,opacity .2s,background .2s;
+      transition:transform .25s ease,opacity .2s ease,background .15s;
     }
-    .hamburger[aria-expanded="true"] span:nth-child(1){
-      transform:translateY(8px) rotate(45deg);
-    }
-    .hamburger[aria-expanded="true"] span:nth-child(2){
-      opacity:0;
-    }
-    .hamburger[aria-expanded="true"] span:nth-child(3){
-      transform:translateY(-8px) rotate(-45deg);
-    }
+    .hamburger[aria-expanded="true"] .hamburger-inner span:nth-child(1){ transform: translateY(8px) rotate(45deg); }
+    .hamburger[aria-expanded="true"] .hamburger-inner span:nth-child(2){ opacity:0; }
+    .hamburger[aria-expanded="true"] .hamburger-inner span:nth-child(3){ transform: translateY(-8px) rotate(-45deg); }
 
-    /* SIDE MENU */
+    /* SIDE MENU: turn into transform for smoother mobile */
     .side-menu{
       position:fixed;
       top:0;
-      right:-100%;
+      right:0;                     /* anchored right */
+      transform:translateX(110%);  /* hidden off-canvas */
       width:320px;
       max-width:82%;
       height:100vh;
       background:var(--card);
-      box-shadow:-3px 0 24px var(--shadow);
-      transition:right .35s ease;
-      z-index:1000;
+      box-shadow:-6px 0 28px rgba(0,0,0,0.18);
+      transition:transform .33s cubic-bezier(.2,.9,.2,1);
+      z-index:1100;
       display:flex;
       flex-direction:column;
+      will-change:transform;
+      border-left:1px solid rgba(0,0,0,0.03);
     }
+    .side-menu.open{ transform:translateX(0); }
 
-    .side-menu.open{ right:0; }
-
-    /* SCROLL AREA ABOVE TOGGLE */
+    /* area for content that can scroll */
     .menu-content{
       padding:28px 20px;
       overflow-y:auto;
       flex:1;
+      -webkit-overflow-scrolling:touch;
     }
 
-    .side-menu h3{
-      margin:0 0 12px;
+    .menu-title{
+      margin:0 0 12px 0;
       color:var(--navy);
       font-size:1.05rem;
+      font-weight:700;
     }
 
-    .side-menu a{
+    .side-menu .nav-link{
       display:block;
       margin:8px 0;
       padding:10px 8px;
@@ -114,15 +125,18 @@
       text-decoration:none;
       border-radius:6px;
     }
-    .side-menu a:hover{
+    .side-menu .nav-link:hover,
+    .side-menu .nav-link:active{
       background:var(--bg2);
+      color:var(--navy);
     }
 
-    /* TOGGLE BAR FIXED AT BOTTOM */
+    /* FIXED BOTTOM AREA inside menu (visible always) */
     .toggle-bar{
-      padding:14px 20px;
-      border-top:1px solid rgba(0,0,0,0.1);
+      padding:14px 18px;
+      border-top:1px solid rgba(0,0,0,0.06);
       background:var(--card);
+      box-shadow: 0 -6px 16px rgba(0,0,0,0.02) inset;
     }
     .theme-control{
       display:flex;
@@ -137,13 +151,14 @@
       color:var(--muted);
     }
     .theme-control button{
-      padding:6px 12px;
+      padding:8px 14px;
       border-radius:6px;
-      border:1px solid rgba(0,0,0,0.18);
+      border:1px solid rgba(0,0,0,0.12);
       background:transparent;
       cursor:pointer;
       font-size:0.95rem;
       color:var(--muted);
+      white-space:nowrap;
     }
 
     /* OVERLAY */
@@ -151,85 +166,66 @@
       position:fixed;
       top:0; left:0;
       width:100%; height:100%;
-      background:rgba(0,0,0,0.3);
-      display:none;
-      z-index:900;
+      background:rgba(0,0,0,0.32);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .25s;
+      z-index:1050;
     }
-    .overlay.show{ display:block; }
+    .overlay.show{ opacity:1; pointer-events:auto; }
 
-    /* CONTENT */
-    main{
-      max-width:1100px;
-      margin:30px auto;
-      padding:0 18px;
-    }
-    .card{
-      background:var(--card);
-      border-radius:12px;
-      padding:34px 42px;
-      margin:26px 0;
-      box-shadow:0 6px 20px var(--shadow);
-    }
+    /* MAIN CONTENT */
+    main{ max-width:1100px; margin:30px auto; padding:0 18px; }
+    .card{ background:var(--card); border-radius:12px; padding:34px 42px; margin:26px 0; box-shadow:0 6px 20px var(--shadow); }
+    h2{ color:var(--navy); border-bottom:3px solid var(--teal); padding-bottom:8px; margin:0 0 12px 0; }
+    p{ line-height:1.6; color:var(--text); }
+    pre,code{ background:var(--code-bg); border-left:4px solid var(--teal); padding:12px; border-radius:8px; display:block; color:var(--code-text); font-family:Consolas,monospace; }
+    footer{ text-align:center; margin:40px 0; color:var(--muted); }
 
-    h2{
-      color:var(--navy);
-      border-bottom:3px solid var(--teal);
-      padding-bottom:8px;
+    /* small screens */
+    @media(max-width:520px){
+      header{ padding:34px 14px 54px; }
+      header h1{ font-size:1.25rem; padding:0 8px; }
+      .side-menu{ width:86%; }
+      .theme-control button{ padding:8px 10px; font-size:0.92rem; }
     }
 
-    p{ line-height:1.6; }
+    /* Focus styles for accessibility */
+    .hamburger:focus { outline: 3px solid rgba(28,214,206,0.2); border-radius:8px; }
+    .side-menu a:focus, .theme-control button:focus { outline:3px solid rgba(28,214,206,0.18); outline-offset:2px; border-radius:6px; }
 
-    pre,code{
-      background:var(--code-bg);
-      border-left:4px solid var(--teal);
-      padding:12px;
-      border-radius:8px;
-      display:block;
-      color:var(--code-text);
-      font-family:Consolas,monospace;
-    }
-
-    footer{
-      text-align:center;
-      margin:40px 0;
-      color:var(--muted);
-    }
-
-    @media(max-width:900px){
-      header{
-        padding:36px 16px 54px;
-      }
-      header h1{
-        font-size:1.6rem;
-      }
-    }
-
+    /* prevent page shift when menu opens: we'll toggle .no-scroll on body via JS */
+    body.no-scroll { overflow:hidden; touch-action:none; }
   </style>
 </head>
 
 <body>
 
-  <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+  <!-- Overlay -->
+  <div class="overlay" id="overlay" aria-hidden="true"></div>
 
+  <!-- Header -->
   <header id="top">
     <h1>Modbus Protocol — Complete Tutorial & Reference</h1>
 
-    <div class="hamburger" id="hamburger" onclick="toggleMenu()" aria-expanded="false">
-      <span></span><span></span><span></span>
+    <!-- hamburger with larger touch area -->
+    <div class="hamburger" id="hamburger" role="button" aria-label="Open navigation" tabindex="0" aria-expanded="false" aria-controls="sideMenu">
+      <div class="hamburger-inner" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
     </div>
   </header>
 
-  <!-- SIDE MENU -->
-  <nav class="side-menu" id="sideMenu">
+  <!-- SIDE MENU (off-canvas) -->
+  <nav class="side-menu" id="sideMenu" aria-hidden="true" aria-label="Site menu">
 
-    <!-- Scrollable Content -->
-    <div class="menu-content">
+    <!-- Scrollable region -->
+    <div class="menu-content" id="menuContent">
+      <div class="menu-title">Explore</div>
 
-      <h3>Explore</h3>
       <a href="index.html" class="nav-link">Home</a>
 
-      <h3 style="margin-top:18px;">Sections</h3>
-
+      <h4 style="margin-top:18px;color:var(--navy);font-weight:700;">Sections</h4>
       <a href="#overview" class="nav-link">Overview</a>
       <a href="#origins" class="nav-link">Origins & Why It Matters</a>
       <a href="#communication" class="nav-link">Communication Model</a>
@@ -246,17 +242,16 @@
       <a href="#security" class="nav-link">Security Considerations</a>
       <a href="#checklist" class="nav-link">Best Practices Checklist</a>
       <a href="#conclusion" class="nav-link">Conclusion</a>
-
+      <div style="height:24px"></div> <!-- breathing space so content doesn't butt against bottom control -->
     </div>
 
-    <!-- FIXED BOTTOM TOGGLE BAR -->
-    <div class="toggle-bar">
+    <!-- Fixed bottom bar (always visible) -->
+    <div class="toggle-bar" role="region" aria-label="Theme control">
       <div class="theme-control">
         <div class="label">Dark mode</div>
         <button id="darkToggle" aria-pressed="false">Enable</button>
       </div>
     </div>
-
   </nav>
 
   <!-- Main content (full tutorial) -->
@@ -471,38 +466,93 @@ else:
 
   <footer>© 2025 All Rights Reserved</footer>
 
-  <!-- SCRIPT -->
   <script>
-
-    const menu = document.getElementById('sideMenu');
-    const overlay = document.getElementById('overlay');
+    // Elements
     const hamburger = document.getElementById('hamburger');
+    const sideMenu = document.getElementById('sideMenu');
+    const overlay = document.getElementById('overlay');
     const darkBtn = document.getElementById('darkToggle');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const body = document.body;
 
-    function openMenu(){
-      menu.classList.add('open');
+    // Open menu: add classes, lock body scroll for mobile
+    function openMenu() {
+      sideMenu.classList.add('open');
       overlay.classList.add('show');
-      hamburger.setAttribute('aria-expanded','true');
-    }
-    function closeMenu(){
-      menu.classList.remove('open');
-      overlay.classList.remove('show');
-      hamburger.setAttribute('aria-expanded','false');
-    }
-    function toggleMenu(){
-      menu.classList.contains('open') ? closeMenu() : openMenu();
+      sideMenu.setAttribute('aria-hidden', 'false');
+      hamburger.setAttribute('aria-expanded', 'true');
+      overlay.setAttribute('aria-hidden', 'false');
+      body.classList.add('no-scroll');
+      // Move focus into the menu for accessibility
+      // find first focusable link
+      const firstLink = sideMenu.querySelector('.nav-link');
+      if (firstLink) firstLink.focus();
     }
 
-    document.querySelectorAll('.nav-link').forEach(link=>{
-      link.addEventListener('click',()=>setTimeout(closeMenu,120));
+    // Close menu
+    function closeMenu() {
+      sideMenu.classList.remove('open');
+      overlay.classList.remove('show');
+      sideMenu.setAttribute('aria-hidden', 'true');
+      hamburger.setAttribute('aria-expanded', 'false');
+      overlay.setAttribute('aria-hidden', 'true');
+      body.classList.remove('no-scroll');
+      hamburger.focus(); // return focus to toggle
+    }
+
+    // Toggle menu (works on click, touch, pointer)
+    function toggleMenu(e) {
+      // prevent double-handling of touch+click
+      if (sideMenu.classList.contains('open')) closeMenu();
+      else openMenu();
+    }
+
+    // Use pointer events and touchstart for best mobile coverage
+    function addToggleListeners(el) {
+      // pointer is best, fallback to touchstart/click
+      el.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
+        toggleMenu();
+      });
+      // also support keyboard activation
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleMenu();
+        }
+      });
+    }
+
+    addToggleListeners(hamburger);
+
+    // overlay closes menu
+    overlay.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      closeMenu();
     });
 
-    /* DARK MODE */
-    if(darkBtn){
+    // Close when any nav link clicked (auto-close)
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        // small timeout to allow anchor jump on same page
+        setTimeout(closeMenu, 120);
+      });
+    });
+
+    // Close with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sideMenu.classList.contains('open')) {
+        closeMenu();
+      }
+    });
+
+    // Simple persistent dark-mode toggle inside the menu bottom bar
+    (function() {
+      if (!darkBtn) return;
       let dark = localStorage.getItem('modbus-dark') === 'true';
 
-      function applyTheme(x){
-        if(x){
+      function applyTheme(isDark){
+        if (isDark){
           document.documentElement.style.setProperty('--bg1','#050505');
           document.documentElement.style.setProperty('--bg2','#0a0a0a');
           document.documentElement.style.setProperty('--card','#0b0d10');
@@ -511,9 +561,11 @@ else:
           document.documentElement.style.setProperty('--text','#f6fbfb');
           document.documentElement.style.setProperty('--code-bg','#071016');
           document.documentElement.style.setProperty('--code-text','#e8fbfb');
+          document.documentElement.style.setProperty('--teal','#1cd6ce');
           document.documentElement.style.setProperty('--header-grad','linear-gradient(90deg,#071426,#03202a)');
           document.documentElement.style.setProperty('--header-text','#d6f9ff');
-          darkBtn.textContent='Disable';
+          darkBtn.textContent = 'Disable';
+          darkBtn.setAttribute('aria-pressed','true');
         } else {
           document.documentElement.style.setProperty('--bg1','#f8fbfd');
           document.documentElement.style.setProperty('--bg2','#e9f5f7');
@@ -523,22 +575,51 @@ else:
           document.documentElement.style.setProperty('--text','#122');
           document.documentElement.style.setProperty('--code-bg','#f4fbfd');
           document.documentElement.style.setProperty('--code-text','#073');
+          document.documentElement.style.setProperty('--teal','#1cd6ce');
           document.documentElement.style.setProperty('--header-grad','linear-gradient(90deg,#b3ecff,#a8fff0,#d9ffff)');
           document.documentElement.style.setProperty('--header-text','#083c5d');
-          darkBtn.textContent='Enable';
+          darkBtn.textContent = 'Enable';
+          darkBtn.setAttribute('aria-pressed','false');
         }
+        // update hamburger bars color
+        const spans = document.querySelectorAll('.hamburger-inner span');
+        spans.forEach(s => {
+          s.style.background = getComputedStyle(document.documentElement).getPropertyValue('--header-text').trim() || '#083c5d';
+        });
+        // update pre/code colors
+        document.querySelectorAll('pre, code').forEach(el => {
+          el.style.background = getComputedStyle(document.documentElement).getPropertyValue('--code-bg');
+          el.style.color = getComputedStyle(document.documentElement).getPropertyValue('--code-text');
+        });
       }
 
+      // initialize
       applyTheme(dark);
 
-      darkBtn.addEventListener('click',()=>{
-        dark=!dark;
-        localStorage.setItem('modbus-dark',dark);
+      // make button easy to tap
+      darkBtn.addEventListener('pointerdown', function(e){
+        e.preventDefault();
+        dark = !dark;
+        localStorage.setItem('modbus-dark', dark.toString());
         applyTheme(dark);
       });
-    }
 
+      // keyboard support
+      darkBtn.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          dark = !dark;
+          localStorage.setItem('modbus-dark', dark.toString());
+          applyTheme(dark);
+        }
+      });
+    })();
+
+    // Ensure the fixed bottom toggle is visible: focusable & accessible
+    // Already placed in .toggle-bar so it stays visible even on small screens.
+    // No extra code required here.
+
+    // Optional: prevent accidental touches inside menu-content from closing menu (handled)
   </script>
-
 </body>
 </html>
