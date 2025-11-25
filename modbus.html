@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Modbus Protocol — Complete Tutorial & Reference</title>
-
+  
   <style>
     :root{
       --bg1:#f8fbfd;
@@ -507,21 +507,21 @@ else:
       else openMenu();
     }
 
-    // Use pointer events and touchstart for best mobile coverage
-    function addToggleListeners(el) {
-      // pointer is best, fallback to touchstart/click
-      el.addEventListener('pointerdown', function (e) {
-        e.preventDefault();
-        toggleMenu();
-      });
-      // also support keyboard activation
-      el.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') {
+  function addToggleListeners(el) {
+  // pointerup is safest for mobile
+  el.addEventListener('pointerup', function () {
+      toggleMenu();
+  });
+
+  // keyboard support
+  el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           toggleMenu();
-        }
-      });
-    }
+      }
+  });
+}
+
 
     addToggleListeners(hamburger);
 
