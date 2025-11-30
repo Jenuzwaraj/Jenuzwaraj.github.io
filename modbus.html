@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Modbus Protocol — Complete Tutorial & Reference</title>
-  
+
   <style>
     :root{
       --bg1:#f8fbfd;
@@ -254,15 +254,17 @@
     </div>
   </nav>
 
-  <!-- Main content (full tutorial) -->
+  <!-- Main content -->
+  
   <main>
-    <section class="card" id="overview">
+
+    <section class="card">
       <h2>Overview</h2>
       <p>Modbus is a simple application-layer messaging protocol originally designed for communication between PLCs and field devices. It defines how messages are structured and exchanged; it does not mandate a transport, which is why Modbus can run over serial (RTU/ASCII) and Ethernet (TCP).</p>
       <p>This guide is written as a reference you can rely on while building, debugging, or documenting Modbus-based systems.</p>
     </section>
 
-    <section class="card" id="origins">
+    <section class="card">
       <h2>Origins & Why It Matters</h2>
       <p>Designed for industrial control, Modbus became popular because it is:</p>
       <ul>
@@ -273,7 +275,7 @@
       <p>Because of these properties Modbus is still widely used in factory automation, building management, energy metering, and gateway devices in IIoT architectures.</p>
     </section>
 
-    <section class="card" id="communication">
+    <section class="card">
       <h2>Communication Model</h2>
       <p>Modbus uses a <strong>request–response</strong> model: a master (client) sends requests; slaves (servers) reply. Classic RTU/ASCII slaves cannot initiate communication — the master must poll them. Modbus TCP uses client/server terminology but follows the same principle.</p>
       <p>Key operational rules:</p>
@@ -284,7 +286,7 @@
       </ul>
     </section>
 
-    <section class="card" id="physical">
+    <section class="card">
       <h2>Physical & Link Layers (Practical Notes)</h2>
       <p>Common transports:</p>
       <ul>
@@ -295,7 +297,7 @@
       <p>Practical wiring tips (RS-485): use a daisy-chain topology, termination resistors (typically 120Ω) at both ends, and biasing resistors to define idle state. Avoid star topologies and long unterminated stubs.</p>
     </section>
 
-    <section class="card" id="variants">
+    <section class="card">
       <h2>Variants — RTU, ASCII, TCP</h2>
       <h3>Modbus RTU</h3>
       <p>Binary encoding; compact frames; CRC-16 for integrity. Widely used in field devices where bandwidth is limited.</p>
@@ -305,7 +307,7 @@
       <p>Runs Modbus PDUs inside TCP packets. Adds a 7-byte MBAP header (Transaction ID, Protocol ID, Length, Unit ID). TCP provides error detection and reassembly, so CRC/LRC are omitted.</p>
     </section>
 
-    <section class="card" id="data">
+    <section class="card">
       <h2>Data Model — Coils & Registers</h2>
       <p>Modbus presents four logical data areas that devices expose:</p>
       <ul>
@@ -317,7 +319,7 @@
       <p>Devices and vendor docs often present human-friendly 1-based addresses (e.g., 40001). Protocol requests use zero-based offsets. Always document mapping and scale factors (e.g., value/10 for temperature).</p>
     </section>
 
-    <section class="card" id="function-codes">
+    <section class="card">
       <h2>Function Codes — What You Need to Know</h2>
       <p>Function codes (one byte) tell the slave what operation to perform. The most-used codes are below.</p>
       <table>
@@ -336,7 +338,7 @@
       <p>There are additional function codes for file record access, diagnostics, masks, and more; consult the official Modbus Application Protocol documentation for edge cases.</p>
     </section>
 
-    <section class="card" id="frames">
+    <section class="card">
       <h2>Frame Formats — Byte-Level Examples</h2>
       <h3>RTU frame (serial)</h3>
       <p>Structure: <kbd>Slave ID (1)</kbd> + <kbd>Function (1)</kbd> + <kbd>Data (N)</kbd> + <kbd>CRC (2)</kbd></p>
@@ -354,7 +356,7 @@ Example (hex): 00 01 00 00 00 06 03 03 00 64 00 02</code></pre>
       <div class="note">MBAP Transaction ID lets a TCP client send multiple outstanding requests; responses are correlated via that ID.</div>
     </section>
 
-    <section class="card" id="crc">
+    <section class="card">
       <h2>CRC-16 and LRC — Integrity Checks</h2>
       <h3>CRC-16 (RTU)</h3>
       <p>RTU uses CRC-16 (polynomial 0xA001). The CRC covers address, function, and data fields and is appended low byte first. Use tested library routines or lookup-table implementations for speed and correctness.</p>
@@ -373,7 +375,7 @@ append CRC low, CRC high</code></pre>
       <p>ASCII frames use an LRC (one byte), which is the two's complement of the sum of data bytes. Again, use library functions.</p>
     </section>
 
-    <section class="card" id="exceptions">
+    <section class="card">
       <h2>Exception Responses</h2>
       <p>If a slave cannot fulfill a request it responds with the function code ORed with 0x80 and an exception code byte.</p>
       <table>
@@ -391,7 +393,7 @@ append CRC low, CRC high</code></pre>
       <p>On receiving exceptions the master should log them and implement retry/backoff; persistent exceptions require investigation of device configuration, addressing, and register mapping.</p>
     </section>
 
-    <section class="card" id="addressing">
+    <section class="card">
       <h2>Addressing & Register Mapping — Practical Advice</h2>
       <p>Common pitfalls: off-by-one addressing, scale/endianness confusion, and undocumented register conventions. Always provide a clear register map in device documentation with:</p>
       <ul>
@@ -405,7 +407,7 @@ append CRC low, CRC high</code></pre>
 40002 (offset 1) : Holding Reg : Control mode (0:auto,1:manual) : uint16</code></pre>
     </section>
 
-    <section class="card" id="implementation">
+    <section class="card">
       <h2>Implementing Master & Slave — Patterns</h2>
       <p>Use stable libraries wherever possible. High-level implementation notes:</p>
       <ul>
@@ -427,7 +429,7 @@ else:
   handle_timeout();</code></pre>
     </section>
 
-    <section class="card" id="testing">
+    <section class="card">
       <h2>Testing & Debugging</h2>
       <ul>
         <li>Use a USB↔RS485 adapter and a terminal/sniffer to capture RTU frames for debugging.</li>
@@ -437,7 +439,7 @@ else:
       <div class="note">If your device replies with malformed frames, check baud/parity/stop settings first — mismatched serial parameters are the most common cause of CRC errors.</div>
     </section>
 
-    <section class="card" id="security">
+    <section class="card">
       <h2>Security Considerations</h2>
       <p>Modbus (RTU/ASCII/TCP) provides no native encryption or authentication. For production systems adopt layered defenses:</p>
       <ul>
@@ -447,7 +449,7 @@ else:
       </ul>
     </section>
 
-    <section class="card" id="checklist">
+    <section class="card">
       <h2>Best Practices Checklist</h2>
       <ul>
         <li>Create and publish a clear register map for every device.</li>
@@ -458,10 +460,29 @@ else:
       </ul>
     </section>
 
+    <section class="card">
+      <h2>Appendix — Quick Reference</h2>
+      <h3>Common RTU frame example (hex)</h3>
+      <pre><code>Master request:
+03 03 00 64 00 02 85 C9
+Slave response (example):
+03 03 04 00 1E 00 2A 79 9A</code></pre>
+      <h3>Common Function Codes</h3>
+      <pre><code>0x01 Read Coils
+0x02 Read Discrete Inputs
+0x03 Read Holding Registers
+0x04 Read Input Registers
+0x05 Write Single Coil
+0x06 Write Single Register
+0x0F Write Multiple Coils
+0x10 Write Multiple Registers</code></pre>
+    </section>
+
     <section class="card" id="conclusion">
       <h2>Conclusion</h2>
       <p>Modbus remains one of the most enduring and practical communication protocols in industrial automation. Its simplicity, wide adoption, and hardware independence have made it a foundational standard for decades. From its early RS-485 serial roots to modern Modbus TCP implementations, it continues to provide a reliable bridge between sensors, controllers, and SCADA systems. Whether you're designing embedded firmware or integrating legacy systems, understanding Modbus deeply equips you to build robust, interoperable, and scalable industrial solutions.</p>
-    </section>
+  </section>
+
   </main>
 
   <footer>© 2025 All Rights Reserved</footer>
@@ -507,21 +528,21 @@ else:
       else openMenu();
     }
 
-  function addToggleListeners(el) {
-  // pointerup is safest for mobile
-  el.addEventListener('pointerup', function () {
-      toggleMenu();
-  });
-
-  // keyboard support
-  el.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
+    // Use pointer events and touchstart for best mobile coverage
+    function addToggleListeners(el) {
+      // pointer is best, fallback to touchstart/click
+      el.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
+        toggleMenu();
+      });
+      // also support keyboard activation
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           toggleMenu();
-      }
-  });
-}
-
+        }
+      });
+    }
 
     addToggleListeners(hamburger);
 
