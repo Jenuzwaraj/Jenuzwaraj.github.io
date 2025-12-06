@@ -4,8 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Modbus Protocol — Complete Tutorial & Reference</title>
+
   <style>
-    /* Clean JenBits light-blue theme, system fonts for GitHub compatibility */
+
+/* DARK MODE FIX for NOTE box */
+body.dark .note {
+  background: #1f242d;
+  border-left: 4px solid var(--teal);
+  color: #e6fdf4;
+}
+
+
     :root{
       --navy:#293462;
       --teal:#1cd6ce;
@@ -17,31 +26,204 @@
       --code-bg:#f4fbfd;
       --header-grad:linear-gradient(90deg,#b3ecff,#a8fff0,#d9ffff);
     }
-    html,body{height:100%;margin:0;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;color:#122;background:linear-gradient(180deg,var(--bg1),var(--bg2));}
-    header{background:var(--header-grad);color:#083c5d;text-align:center;padding:64px 20px 44px;box-shadow:0 3px 16px var(--shadow);} 
-    header h1{margin:0;font-size:2.4rem;font-weight:700;letter-spacing:0.2px;text-shadow:0 1px 0 rgba(255,255,255,0.6);} 
-    header p{margin-top:10px;font-size:1.05rem;max-width:900px;margin-left:auto;margin-right:auto;opacity:0.95;color:#0e4d66}
-    main{max-width:1100px;margin:30px auto;padding:0 18px;} 
-    .card{background:var(--card);border-radius:12px;padding:34px 42px;margin:26px 0;box-shadow:0 6px 20px var(--shadow);border:1px solid rgba(30,60,80,0.03);} 
-    h2{color:var(--navy);font-size:1.45rem;margin:0 0 12px 0;font-weight:700;display:block;border-bottom:3px solid var(--teal);padding-bottom:8px;} 
-    h3{color:var(--muted);font-size:1.12rem;margin-top:20px;margin-bottom:8px;font-weight:600;} 
-    p{margin:10px 0;font-size:1rem;line-height:1.6;color:#123;} 
-    ul{margin:10px 0 10px 1.2rem;} li{margin:6px 0;} 
-    pre,code{background:var(--code-bg);padding:12px;border-radius:8px;display:block;overflow-x:auto;border-left:4px solid var(--teal);font-family:Consolas,'Courier New',monospace;font-size:0.95rem;color:#073;} 
-    table{width:100%;border-collapse:collapse;margin:14px 0;} th,td{padding:10px 12px;border-bottom:1px solid #eef6f8;text-align:left;font-size:0.95rem;} th{background:linear-gradient(90deg,rgba(28,214,206,0.06),rgba(41,52,98,0.02));color:var(--navy);font-weight:600;} 
-    .note{background:linear-gradient(90deg,#eafafa,#f6fffd);border-left:4px solid var(--teal);padding:12px;border-radius:8px;margin:16px 0;font-style:italic;color:#073;} 
-    footer{max-width:1100px;margin:26px auto 60px auto;text-align:center;color:var(--muted);font-weight:600;padding:14px;} 
-    @media (max-width:900px){header{padding:46px 16px;} .card{padding:22px 18px;} h2{font-size:1.28rem;} header h1{font-size:1.6rem;}} 
-    @media (max-width:600px){body{font-size:15px;} header p{font-size:0.98rem;} pre,code{font-size:0.86rem;padding:8px;} .card{padding:18px 14px;} }
+    body.dark{
+      --bg1:#111216;
+      --bg2:#111216;
+      --card:#1d1f26;
+      --shadow:rgba(255,255,255,0.05);
+      --code-bg:#1f242d;
+      --header-grad:linear-gradient(90deg,#1c2738,#1d2a42,#1b2e46);
+    }
+
+    html,body{
+      margin:0;
+      font-family:'Segoe UI',sans-serif;
+      background:linear-gradient(180deg,var(--bg1),var(--bg2));
+      color:#122;
+      scroll-behavior:smooth;
+    }
+    body.dark{color:#fff;}
+
+    header{
+      background:var(--header-grad);
+      text-align:center;
+      padding:64px 20px 44px;
+      box-shadow:0 3px 16px var(--shadow);
+    }
+    header h1{
+      margin:0;
+      font-size:2.4rem;
+      font-weight:700;
+    }
+    header p{
+      max-width:900px;
+      margin:10px auto 0;
+      font-size:1.05rem;
+      color:#0e4d66;
+    }
+
+    /* HAMBURGER */
+    .menu-btn{
+      position:fixed;
+      top:18px;
+      right:20px;
+      width:32px;
+      height:28px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      cursor:pointer;
+      z-index:3000;
+      transition:transform .3s ease;
+    }
+    .menu-btn.shrink{transform:scale(0.7);}
+    .menu-btn span{
+      height:4px;
+      background:var(--muted);
+      border-radius:2px;
+    }
+    body.dark .menu-btn span{background:#fff;}
+
+    /* OVERLAY */
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      z-index:2500;
+    }
+    .overlay.show{display:block;}
+
+    /* SIDE MENU */
+    .side-menu{
+      position:fixed;
+      top:0;
+      right:-260px;
+      width:250px;
+      height:100vh;
+      background:var(--card);
+      box-shadow:-6px 0 16px var(--shadow);
+      transition:.3s;
+      z-index:2601;
+      display:flex;
+      flex-direction:column;
+    }
+    .side-menu.open{right:0;}
+
+    .menu-top{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(0,0,0,0.08);
+      position:sticky;
+      top:0;
+      background:var(--card);
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .menu-title{
+      font-size:1.1rem;
+      font-weight:700;
+      color:var(--navy);
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    /* Toggle box */
+    .dark-toggle-box{
+      width:26px;
+      height:26px;
+      border:1.4px solid rgba(0,0,0,0.18);
+      border-radius:6px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:.25s;
+    }
+    .dark-toggle-box:hover{
+      background:rgba(0,0,0,0.06);
+    }
+    body.dark .dark-toggle-box{
+      border:1.4px solid rgba(255,255,255,0.25);
+    }
+    body.dark .dark-toggle-box:hover{
+      background:rgba(255,255,255,0.12);
+    }
+    .dark-toggle-box svg{
+      width:18px;
+      height:18px;
+    }
+
+    .menu-links{
+      flex:1;
+      overflow-y:auto;
+      padding:10px 14px;
+    }
+    .menu-links a{
+      display:block;
+      text-decoration:none;
+      font-weight:600;
+      color:inherit;
+      font-size:0.95rem;
+      margin:8px 0;
+      border-bottom:1px solid rgba(0,0,0,0.06);
+      padding-bottom:5px;
+    }
+
+    /* MAIN CONTENT */
+    main{max-width:1100px;margin:30px auto;padding:0 18px;}
+    .card{background:var(--card);border-radius:12px;padding:34px 42px;margin:26px 0;box-shadow:0 6px 20px var(--shadow);}
+    h2{color:var(--navy);font-size:1.45rem;margin:0 0 12px;border-bottom:3px solid var(--teal);padding-bottom:8px;}
+    h3{color:var(--muted);margin-top:20px;margin-bottom:8px;font-weight:600;}
+    p{margin:10px 0;font-size:1rem;line-height:1.6;color:inherit;}
+    ul{margin:10px 0 10px 1.2rem;}
+    li{margin:6px 0;}
+    pre,code{background:var(--code-bg);padding:12px;border-radius:8px;display:block;overflow-x:auto;font-family:Consolas;font-size:0.95rem;}
+    table{width:100%;border-collapse:collapse;margin:14px 0;}
+    th,td{padding:10px 12px;border-bottom:1px solid #eef6f8;text-align:left;}
+    .note{background:linear-gradient(90deg,#eafafa,#f6fffd);border-left:4px solid var(--teal);padding:12px;border-radius:8px;margin:16px 0;font-style:italic;}
+
+    footer{text-align:center;padding:16px;color:var(--muted);}
   </style>
 </head>
-<body>
-  <header>
-    <h1>Modbus Protocol — Complete Tutorial & Reference</h1>
-    <p>A technical, practical deep-dive into Modbus: history, architecture, variants (RTU/ASCII/TCP), frame formats, function codes, exceptions, addressing, CRC/LRC, implementation tips, and security.</p>
-  </header>
 
-  <main>
+<body>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- SIDE MENU -->
+<nav class="side-menu" id="sideMenu">
+  <div class="menu-top">
+    <span class="menu-title">Contents</span>
+
+    <!-- Toggle Box -->
+    <div class="dark-toggle-box" onclick="toggleDark()">
+      <svg id="darkIcon" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path id="darkPath" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="menu-links">
+    <a href="index.html">Home</a>
+    <div id="headingLinks"></div>
+  </div>
+</nav>
+
+<!-- HAMBURGER -->
+<div class="menu-btn" id="menuBtn" onclick="toggleMenu()">
+  <span></span><span></span><span></span>
+</div>
+
+<header>
+  <h1>Modbus Protocol — Complete Tutorial & Reference</h1>
+  <p>A technical, practical deep-dive into Modbus: history, architecture, variants...</p>
+</header>
+
+ <main>
 
     <section class="card">
       <h2>Overview</h2>
@@ -270,6 +452,48 @@ Slave response (example):
 
 </main>
 
-  <footer>© 2025 All Rights Reserved </footer>
+<footer>© 2025 All Rights Reserved</footer>
+
+<script>
+  function toggleMenu(){
+    sideMenu.classList.toggle("open");
+    overlay.classList.toggle("show");
+  }
+  overlay.onclick = toggleMenu;
+
+  function toggleDark(){
+    document.body.classList.toggle("dark");
+    const p = document.getElementById("darkPath");
+    if(document.body.classList.contains("dark")){
+      p.setAttribute("d",
+        "M12 4v2M12 18v2M4 12H2M22 12h-2M5.64 5.64l1.41 1.41M16.95 16.95l1.41 1.41M5.64 18.36l1.41-1.41M16.95 7.05l1.41-1.41M12 8a4 4 0 100 8 4 4 0 000-8z"
+      );
+    }else{
+      p.setAttribute("d",
+        "M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+      );
+    }
+  }
+
+  /* Auto headings */
+  window.onload = () => {
+    const c = document.getElementById("headingLinks");
+    document.querySelectorAll("main h2").forEach(h2=>{
+      const id = h2.textContent.trim().toLowerCase().replace(/\s+/g,'-');
+      h2.id=id;
+      const a=document.createElement("a");
+      a.href="#"+id;
+      a.textContent=h2.textContent;
+      c.appendChild(a);
+    });
+  };
+
+  /* shrink hamburger */
+  window.addEventListener("scroll", ()=>{
+    if(window.scrollY>90) menuBtn.classList.add("shrink");
+    else menuBtn.classList.remove("shrink");
+  });
+</script>
+
 </body>
 </html>
