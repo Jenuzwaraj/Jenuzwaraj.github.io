@@ -8,6 +8,28 @@
 
   <style>
 
+
+    .serial-log {
+  text-align: center;
+  margin-top: 18px;
+}
+
+.serial-log img {
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.serial-caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+body.dark .serial-caption {
+  color: #cfd8dc;
+}
+
 /* DARK MODE FIX for NOTE box */
 body.dark .note {
   background: #1f242d;
@@ -335,6 +357,32 @@ body.dark .note {
       the playback pipeline.
     </div>
   </section>
+
+
+  <section class="card">
+  <h2>Startup Validation Output</h2>
+
+  <p>
+    During system startup, the firmware validates the flash-resident WAV file
+    and prints detailed metadata to the Serial Monitor. This confirms that the
+    audio asset is correctly structured and ready for playback.
+  </p>
+
+  <div class="serial-log">
+    <img src="images/serial-monitor-wav-validation.png"
+         alt="ESP32 Serial Monitor showing WAV validation output">
+    <div class="serial-caption">
+      Serial Monitor output showing LittleFS mount, WAV header validation,
+      and extracted audio metadata.
+    </div>
+  </div>
+
+  <div class="note">
+    Capturing and documenting startup logs like this makes debugging easier
+    and provides strong validation evidence during development and reviews.
+  </div>
+</section>
+
 
   <section class="card">
     <h2>Startup Diagnostics and Logging</h2>
